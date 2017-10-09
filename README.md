@@ -26,8 +26,8 @@ Game Flow
 5. User inputs single letter X
 6. User type checking X
 7. Check if letter is in word X
-7a. Decrease words remaining count by number of letter matches
-7b. Call display word function
+7a. Decrease words remaining count by number of letter matches X
+7b. Call display word function X
 8. Check count
 a. If guessesRemaining > 0 and lettersRemaining > 1 run game guess process again
 b. If guessesRemaining < 0 display "GAME OVER."
