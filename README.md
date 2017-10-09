@@ -18,17 +18,19 @@ Hangman built in Ruby
 - As a hangman player, I want the game to end when I have guessed the full word
 
 Game Flow
-1. Start game
+1. Start game X
 2. Admin input for word to guess X
 3. Type checking X
 
 4. Display word length with letters replaced with _ 's X
 5. User inputs single letter X
-6. User type checking
-7. Check if letter is in word
+6. User type checking X
+7. Check if letter is in word X
 7a. Decrease words remaining count by number of letter matches
 7b. Call display word function
 8. Check count
 a. If guessesRemaining > 0 and lettersRemaining > 1 run game guess process again
 b. If guessesRemaining < 0 display "GAME OVER."
 b. Display "You win!" if letters remaining < 1
+
+Tests...
