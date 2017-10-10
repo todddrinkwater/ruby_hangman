@@ -49,35 +49,40 @@ end
 
 def display_guess_word(admin_word)
   word_display = []
-  word_array = admin_word.split('') # check that param is safe to use.
+  word_array = admin_word.chars # check that param is safe to use.
 
   admin_word_length = admin_word.length
   admin_word_length.times { word_display.push("_") }
 
-  word_array.each_index do |admin_index|
-    $guesses_array.each_index do |guesses_index|
-      if $guesses_array[guesses_index] == word_array[admin_index]
-        word_display[admin_index] = word_array[admin_index]
-      end
-    end
-    word_display
-  end
+  word_display = word_array.map { |letter| $guesses_array.include?(letter) ? letter : "_"}
+
+  # word_array.each_index do |admin_index|
+  #   $guesses_array.each_index do |guesses_index|
+  #     if $guesses_array[guesses_index] == word_array[admin_index]
+  #       word_display[admin_index] = word_array[admin_index]
+  #     end
+  #   end
+  #   word_display
+  # end
   $letters_remaining = word_display.count("_")
-  print word_display
+  print "GUESS WORD: #{word_display.join(" ")}\n"
 end
 
 def check_game_status
   if ($letters_remaining > 0) && ($lives_remaining > 0)
     puts "Lives remaining: #{$lives_remaining}"
     puts "Letters remaining: #{$letters_remaining}"
+    puts "- - - - - - - - - - - - - - - "
     game_time_logic
   end
   if $letters_remaining < 1
     puts "Lifesaver. You win!"
-    puts "Play again?"
+    puts "Play again? Enter YES or NO"
     play_again = gets.chomp
-    if play_again == "yes" then run_hangman
-    else puts "BYE!"
+    if play_again == "YES"
+      run_hangman
+    else
+      return "BYE!"
     end
   end
   if $lives_remaining < 1
@@ -93,7 +98,7 @@ end
 def game_time_logic
   guessed_letter = user_guess
   includes_letter?($hangman_guess_word, guessed_letter)
-  print $guesses_array
+  print "Letters guessed: #{$guesses_array}\n"
   display_guess_word($hangman_guess_word)
   check_game_status
 end
