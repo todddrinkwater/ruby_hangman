@@ -17,7 +17,7 @@ def check_input_type(word)
   end
 end
 
-def user_guess(guesses_array)
+def user_guess
   puts "Guess a letter!"
   guessed_letter = gets.chomp
   regex_comparison = /[\d\s_\W]/
@@ -30,26 +30,24 @@ def user_guess(guesses_array)
     puts "Please use only letters."
     user_guess
   else
-    guesses_array.push(guessed_letter)
+    $guesses_array.push(guessed_letter)
     return guessed_letter
   end
 end
 
-def includes_letter?(word, guessed_letter, guesses_array)
+def includes_letter?(word, guessed_letter)
   word_array = word.split('')
   if word_array.include?(guessed_letter)
     puts "Bullseye!"
-    $letters_remaining -= 1
   elsif word_array.include?(guessed_letter) == false
     puts "Sorry, you guessed wrong."
     $lives_remaining -= 1
     puts ". ."
     puts " ^"
   end
-  #return [letters_remaining, lives_remaining]
 end
 
-def display_guess_word(admin_word, guesses_array)
+def display_guess_word(admin_word)
   word_display = []
   word_array = admin_word.split('') # check that param is safe to use.
 
@@ -57,19 +55,22 @@ def display_guess_word(admin_word, guesses_array)
   admin_word_length.times { word_display.push("_") }
 
   word_array.each_index do |admin_index|
-    guesses_array.each_index do |guesses_index|
-      if guesses_array[guesses_index] == word_array[admin_index]
+    $guesses_array.each_index do |guesses_index|
+      if $guesses_array[guesses_index] == word_array[admin_index]
         word_display[admin_index] = word_array[admin_index]
       end
     end
+    word_display
   end
-
+  $letters_remaining = word_display.count("_")
   print word_display
 end
 
 def check_game_status
   if ($letters_remaining > 0) && ($lives_remaining > 0)
     puts "Lives remaining: #{$lives_remaining}"
+    puts "Letters remaining: #{$letters_remaining}"
+    game_time_logic
   end
   if $letters_remaining < 1
     puts "Lifesaver. You win!"
@@ -89,18 +90,22 @@ def check_game_status
   end
 end
 
-def run_hangman
-  guesses_array = []
-  $lives_remaining = 7
-  $letters_remaining = 1
-  puts "Welcome to HANGMAN, mannnnn."
-  hangman_guess_word = admin_input
-  check_input_type(hangman_guess_word)
-  guessed_letter = user_guess(guesses_array)
-  includes_letter?(hangman_guess_word, guessed_letter, guesses_array)
-  print guesses_array
-  display_guess_word(hangman_guess_word, guesses_array)
+def game_time_logic
+  guessed_letter = user_guess
+  includes_letter?($hangman_guess_word, guessed_letter)
+  print $guesses_array
+  display_guess_word($hangman_guess_word)
   check_game_status
+end
+
+def run_hangman
+  $guesses_array = []
+  $lives_remaining = 7
+  puts "Welcome to HANGMAN, mannnnn."
+  $hangman_guess_word = admin_input
+  $letters_remaining = $hangman_guess_word.length
+  check_input_type($hangman_guess_word)
+  game_time_logic
 end
 
 run_hangman
