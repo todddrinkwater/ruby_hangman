@@ -64,6 +64,7 @@ def display_guess_word(admin_word)
   #   end
   #   word_display
   # end
+  
   $letters_remaining = word_display.count("_")
   print "GUESS WORD: #{word_display.join(" ")}\n"
 end

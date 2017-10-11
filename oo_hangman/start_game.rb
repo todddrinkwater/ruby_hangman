@@ -1,5 +1,5 @@
-require "./hangman.rb"
+require "./controller.rb"
 
 start = Controller.new
-start.new_game
-start.input_guess_word
+start.game_flow
+# start.create_status_display

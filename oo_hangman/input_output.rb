@@ -5,12 +5,20 @@ class InputOutput
     puts "WELCOME to HANGMAN, MANNNNNN"
   end
 
-  def admin_input
+  def admin_input_message
     puts "Please enter your choosen word:"
-    @input = gets.chomp
+  end
+
+  def admin_input
+    gets.chomp
   end
 
   def admin_input_message
     puts "Please enter your guess word:"
+  end
+
+  def user_input
+    puts "Please guess a letter:"
+    gets.chomp
   end
 end
