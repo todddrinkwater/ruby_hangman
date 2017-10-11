@@ -33,4 +33,20 @@ a. If guessesRemaining > 0 and lettersRemaining > 1 run game guess process again
 b. If guessesRemaining < 0 display "GAME OVER."
 b. Display "You win!" if letters remaining < 1
 
+OO Game Flow
+1. Start game X
+2. Admin input for word to guess X
+3. Admin Type checking X
+
+4. Display word length with letters replaced with _ 's
+5. User inputs single letter
+6. User type checking
+7. Check if letter is in word
+7a. Decrease words remaining count by number of letter matches
+7b. Call display word function
+8. Check count
+a. If guessesRemaining > 0 and lettersRemaining > 1 run game guess process again
+b. If guessesRemaining < 0 display "GAME OVER."
+b. Display "You win!" if letters remaining < 1
+
 Tests...

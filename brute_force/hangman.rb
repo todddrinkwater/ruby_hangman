@@ -104,7 +104,7 @@ def game_time_logic
 end
 
 def run_hangman
-  $guesses_array = []
+  $guesses_array = [] #global vars not secure
   $lives_remaining = 7
   puts "Welcome to HANGMAN, mannnnn."
   $hangman_guess_word = admin_input
