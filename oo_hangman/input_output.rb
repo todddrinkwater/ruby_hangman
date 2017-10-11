@@ -1,8 +1,11 @@
 class InputOutput
   attr_reader :welcome_message
+  def initialize
+    super
+  end
 
   def welcome_message
-    puts "WELCOME to HANGMAN, MANNNNNN"
+    puts "WELCOME to HANGMAN, MANNNNNN \n - - - - - - - - - - - - -"
   end
 
   def admin_input_message
@@ -21,4 +24,5 @@ class InputOutput
     puts "Please guess a letter:"
     gets.chomp
   end
+
 end

@@ -44,6 +44,10 @@ class Controller
     until get_admin_input === true do
       admin_start
     end
+    create_status_display
+    display_lives_remaining
+    display_letters_remaining
+    get_user_input
   end
 
   def new_game
@@ -55,7 +59,9 @@ class Controller
     @admin_input = input_output.admin_input
   end
 
+# - - - - - - - - - - - - - - - - - - - - -
 # TODO: Create a method to run game loop
+# - - - - - - - - - - - - - - - - - - - - -
 
   def get_admin_input
     @validate.validate_admin_input(@admin_input)
@@ -64,17 +70,22 @@ class Controller
   def create_status_display
     @admin_input = admin_input
     word_array = @admin_input.chars
-    print word_array
-    print admin_input.length
     admin_input.length.times { @state.word_display.push("_") }
-    print @state.word_display
+    print "#{@state.word_display}\n"
   end
 
-  # def display_game_status
-  #   puts "{Lives: #{@state.lives_remaining}}"
-  #   @state.letters_remaining = @admin_input.length
-  #   puts @state.letters_remaining
-  # end
+  def display_lives_remaining
+    puts "--> Lives remaining: #{@state.lives_remaining - @state.incorrect_guesses_arr.length}"
+  end
+
+  def display_letters_remaining
+    letters_remaining = @admin_input.length
+    puts "--> Letters remaining: #{letters_remaining}\n"
+  end
+
+  def get_user_input
+    @user_input = @input_output.user_input
+  end
 
 
 end

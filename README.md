@@ -38,7 +38,7 @@ OO Game Flow
 2. Admin input for word to guess X
 3. Admin Type checking X
 
-4. Display word length with letters replaced with _ 's
+4. Display word length with letters replaced with _ 's x
 5. User inputs single letter
 6. User type checking
 7. Check if letter is in word
