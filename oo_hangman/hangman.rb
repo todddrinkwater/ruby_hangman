@@ -17,19 +17,6 @@ end
 
 class ProcessGameState
 
-  # def display_guess_word_progess(hangman_word)
-  #   word_display = []
-  #   word_array = hangman_word.chars
-  #
-  #   hangman_word_length = hangman_word.length
-  #   hangman_word_length.times { word_display.push("_") }
-  #
-  #   word_display = word_array.map { |letter| $guesses_array.include?(letter) ? letter : "_"}
-  #
-  #   $letters_remaining = word_display.count("_")
-  #   print "GUESS WORD: #{word_display.join(" ")}\n"
-  # end
-
   def validate_admin_input(admin_input)
     regex_comparison = /[\d\s_\W]+/
     type_check = admin_input.scan(regex_comparison)
@@ -44,21 +31,19 @@ end
 
 # controller is purely an orchestrator
 class Controller
-  def initialize(output, input)
-    @output = output
-    @input = input
+  def initialize(input_output)
+    @input_output = input_output
     @state = State.new
     @process_game_state = ProcessGameState.new
   end
 
   def new_game
-    @output.welcome_message
+    @input_output.welcome_message
   end
 
   def input_guess_word
-    @admin_input = @input.admin_input
+    @admin_input = @input_output.admin_input
     @process_game_state.validate_admin_input(@admin_input)
-
   end
 
   # def display_game_status
@@ -72,17 +57,16 @@ end
 
 # Everything from here down is screen is business
 
-class Input
+class InputOutput
+  attr_reader :welcome_message
+
+  def welcome_message
+    puts "WELCOME to HANGMAN, MANNNNNN"
+  end
+
   def admin_input
     puts "Please enter your choosen word:"
     @input = gets.chomp
-  end
-end
-
-class Output
-  attr_reader :welcome_message
-  def welcome_message
-    puts "WELCOME to HANGMAN, MANNNNNN"
   end
 
   def admin_input_message
