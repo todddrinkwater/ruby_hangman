@@ -48,9 +48,11 @@ class Controller
     display_lives_remaining
     display_letters_remaining
     show_player_input_message
-    until check_player_input == true do
+    until player_input_valid? == true do
       get_player_input
     end
+    guess_correct?
+
   end
 
   def new_game
@@ -68,13 +70,17 @@ class Controller
 
   def get_admin_input
     @validate.validate_admin_input(@admin_input)
+    @admin_input_submitted = true
   end
 
   def create_status_display
     @admin_input = admin_input
-    word_array = @admin_input.chars
+    @admin_input_arr = @admin_input.chars
     admin_input.length.times { @state.word_display.push("_") }
     print "#{@state.word_display}\n"
+    # if @admin_input_submitted === true
+    #   @state.word_display = admin_input_arr.map { |letter| @state.correct_guesses_arr.include?(letter) ? letter : "_"}
+    # end
   end
 
   def display_lives_remaining
@@ -90,8 +96,12 @@ class Controller
     @user_input = @input_output.user_input
   end
 
-  def check_player_input
+  def player_input_valid?
     @validate.validate_player_input(@user_input)
+  end
+
+  def guess_correct?
+    @admin_input_arr.include?(@user_input) ? @state.correct_guesses_arr.push(@user_input) : @state.incorrect_guesses_arr.push(@user_input)
   end
 
 end
