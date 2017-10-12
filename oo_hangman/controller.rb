@@ -1,7 +1,7 @@
 #big bag of state
 require './state'
 require './input_output'
-require './process_game_state'
+require './validate'
 
 
   # function bark() {
@@ -47,7 +47,10 @@ class Controller
     create_status_display
     display_lives_remaining
     display_letters_remaining
-    get_user_input
+    show_player_input_message
+    until check_player_input == true do
+      get_player_input
+    end
   end
 
   def new_game
@@ -83,9 +86,12 @@ class Controller
     puts "--> Letters remaining: #{letters_remaining}\n"
   end
 
-  def get_user_input
+  def show_player_input_message
     @user_input = @input_output.user_input
   end
 
+  def check_player_input
+    @validate.validate_player_input(@user_input)
+  end
 
 end
