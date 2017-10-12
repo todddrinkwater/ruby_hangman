@@ -1,35 +1,11 @@
 #big bag of state
-require './state'
-require './input_output'
-require './validate'
-
-
-  # function bark() {
-  #   return "woof"
-  # }
-  #
-  # var dog = bark
-  #
-  # var dog = bark()
-
-
-  # admin_start => do import & set @admin_input (eg "pirate")
-  # @admin_input => "pirate"
-
-
-  # attr_reader :cat
-  #
-  # def initialize
-  #   @cat = Cat.new
-  # end
-  #
-  # def method_name
-  #   cat = Dog.new
-  # end
+require_relative 'state'
+require_relative 'input_output'
+require_relative 'validate'
 
 # controller is purely an orchestrator
 class Controller
-  attr_reader :input_output
+  attr_reader :input_output, :state, :validate
   attr_accessor :admin_input
 
   def initialize(input_output: InputOutput.new)
@@ -44,15 +20,16 @@ class Controller
     until get_admin_input === true do
       admin_start
     end
-    create_status_display
-    display_lives_remaining
-    display_letters_remaining
-    show_player_input_message
-    until player_input_valid? == true do
-      get_player_input
+    until game_won? || game_lost? do
+      create_status_display
+      display_lives_remaining
+      display_letters_remaining
+      show_player_input_message
+      until player_input_valid? == true do
+        show_player_input_message
+      end
+      guess_correct?
     end
-    guess_correct?
-    create_status_display
   end
 
   def new_game
@@ -86,11 +63,12 @@ class Controller
   end
 
   def display_lives_remaining
-    puts "--> Lives remaining: #{@state.lives_remaining - @state.incorrect_guesses_arr.length}"
+    lives_remaining = @state.lives_remaining - @state.incorrect_guesses_arr.length
+    puts "--> Lives remaining: #{lives_remaining}"
   end
 
   def display_letters_remaining
-    letters_remaining = @admin_input.length
+    letters_remaining = @state.word_display.count("_")
     puts "--> Letters remaining: #{letters_remaining}\n"
   end
 
@@ -106,4 +84,21 @@ class Controller
     @admin_input_arr.include?(@user_input) ? @state.correct_guesses_arr.push(@user_input) : @state.incorrect_guesses_arr.push(@user_input)
   end
 
+  def game_won?
+    if @state.letters_remaining < 1
+      puts "You win!"
+      true
+    else
+      false
+    end
+  end
+
+  def game_lost?
+    if @state.lives_remaining < 1
+      puts "You lose."
+      true
+    else
+      false
+    end
+  end
 end
