@@ -79,8 +79,7 @@ class Controller
     if @user_input == nil
       admin_input.length.times { @state.word_display.push("_") }
       print "#{@state.word_display}\n"
-    end
-    if @admin_input_submitted === true
+    else
       @state.word_display = @admin_input_arr.map { |letter| @state.correct_guesses_arr.include?(letter) ? letter : "_" }
       print "#{@state.word_display}\n"
     end
