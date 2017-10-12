@@ -52,7 +52,7 @@ class Controller
       get_player_input
     end
     guess_correct?
-
+    create_status_display
   end
 
   def new_game
@@ -76,11 +76,14 @@ class Controller
   def create_status_display
     @admin_input = admin_input
     @admin_input_arr = @admin_input.chars
-    admin_input.length.times { @state.word_display.push("_") }
-    print "#{@state.word_display}\n"
-    # if @admin_input_submitted === true
-    #   @state.word_display = admin_input_arr.map { |letter| @state.correct_guesses_arr.include?(letter) ? letter : "_"}
-    # end
+    if @user_input == nil
+      admin_input.length.times { @state.word_display.push("_") }
+      print "#{@state.word_display}\n"
+    end
+    if @admin_input_submitted === true
+      @state.word_display = @admin_input_arr.map { |letter| @state.correct_guesses_arr.include?(letter) ? letter : "_" }
+      print "#{@state.word_display}\n"
+    end
   end
 
   def display_lives_remaining
