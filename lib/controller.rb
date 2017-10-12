@@ -20,15 +20,18 @@ class Controller
     until get_admin_input === true do
       admin_start
     end
+    create_status_display
+    display_lives_remaining
+    display_letters_remaining
     until game_won? || game_lost? do
-      create_status_display
-      display_lives_remaining
-      display_letters_remaining
       show_player_input_message
       until player_input_valid? == true do
         show_player_input_message
       end
       guess_correct?
+      create_status_display
+      display_lives_remaining
+      display_letters_remaining
     end
   end
 
@@ -63,13 +66,13 @@ class Controller
   end
 
   def display_lives_remaining
-    lives_remaining = @state.lives_remaining - @state.incorrect_guesses_arr.length
-    puts "--> Lives remaining: #{lives_remaining}"
+    @lives_remaining = @state.lives_remaining - @state.incorrect_guesses_arr.length
+    puts "--> Lives remaining: #{@lives_remaining}"
   end
 
   def display_letters_remaining
-    letters_remaining = @state.word_display.count("_")
-    puts "--> Letters remaining: #{letters_remaining}\n"
+    @letters_remaining = @state.word_display.count("_")
+    puts "--> Letters remaining: #{@letters_remaining}\n"
   end
 
   def show_player_input_message
@@ -85,7 +88,7 @@ class Controller
   end
 
   def game_won?
-    if @state.letters_remaining < 1
+    if @letters_remaining < 1
       puts "You win!"
       true
     else
@@ -94,7 +97,7 @@ class Controller
   end
 
   def game_lost?
-    if @state.lives_remaining < 1
+    if @lives_remaining < 1
       puts "You lose."
       true
     else
