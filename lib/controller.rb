@@ -1,4 +1,3 @@
-#big bag of state
 require_relative 'state'
 require_relative 'input_output'
 require_relative 'validate'
@@ -24,16 +23,21 @@ class Controller
     display_lives_remaining
     display_letters_remaining
     until game_won? || game_lost? do
-      show_player_input_message
-      until player_input_valid? == true do
-        show_player_input_message
-      end
-      guess_correct?
-      create_status_display
-      display_lives_remaining
-      display_letters_remaining
+      take_single_turn
     end
   end
+
+  def take_single_turn
+    show_player_input_message
+    until player_input_valid? == true do
+      show_player_input_message
+    end
+    guess_correct?
+    create_status_display
+    display_lives_remaining
+    display_letters_remaining
+  end
+
 
   def new_game
     input_output.welcome_message
@@ -44,9 +48,6 @@ class Controller
     @admin_input = input_output.admin_input
   end
 
-# - - - - - - - - - - - - - - - - - - - - -
-# TODO: Create a method to run game loop
-# - - - - - - - - - - - - - - - - - - - - -
 
   def get_admin_input
     @validate.validate_admin_input(@admin_input)
@@ -72,7 +73,7 @@ class Controller
 
   def display_letters_remaining
     @letters_remaining = @state.word_display.count("_")
-    puts "--> Letters remaining: #{@letters_remaining}\n"
+    puts "--> Letters remaining: #{@letters_remaining}\n\n"
   end
 
   def show_player_input_message
