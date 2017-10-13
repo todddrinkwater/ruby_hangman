@@ -3,11 +3,14 @@ class Validate # Don't break up into other classes until you see a need / clear 
   def validate_admin_input(admin_input)
     regex_comparison = /[\d\s_\W]+/
     type_check = admin_input.scan(regex_comparison)
-    if type_check.length < 1
+    if admin_input.length < 1
+      puts "Please enter at least one letter."
+      false
+    elsif type_check.length < 1
       admin_input.downcase!
       true
     else
-      print "Please enter only letter characters (incl. no spaces)\n"
+      puts "Please enter only letter characters (incl. no spaces)\n"
       false
     end
   end

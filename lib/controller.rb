@@ -6,7 +6,6 @@ require 'byebug'
 #TODO: try to get rid of instance variables, by passing around local vars into methods.
 #TODO: try to reduce duplication.
 #TODO: move methods into appropriate class once theme presents itself.
-#TODO: Bug - allows win if admin_input == 0
 
 class Controller
   attr_reader :input_output, :state, :validate
@@ -63,9 +62,8 @@ class Controller
 
   def create_status_display(admin_input)
     admin_input_arr = admin_input.chars
-      @state.word_display = admin_input_arr.map { |letter|    @state.correct_guesses_arr.include?(letter) ? letter : "_" }
-      display_str = @state.word_display.join(' ')
-      print "#{display_str}\n"
+    @state.word_display = admin_input_arr.map { |letter|  @state.correct_guesses_arr.include?(letter) ? letter : "_" }
+    print "#{@state.word_display.join(' ')}\n"
   end
 
   def display_lives_remaining
