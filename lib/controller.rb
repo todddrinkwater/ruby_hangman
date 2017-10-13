@@ -22,7 +22,7 @@ class Controller
     new_game
     welcome_message
     admin_input = @input_output.admin_input
-    until get_admin_input(admin_input) === true do
+    until admin_input_valid?(admin_input) === true do
       admin_input = @input_output.admin_input
     end
     create_status_display(admin_input)
@@ -40,8 +40,8 @@ class Controller
     end
     is_guess_correct(admin_input, user_input)
     create_status_display(admin_input, user_input)
-    display_correct_guesses
-    display_incorrect_guesses
+    display_correct_guesses(@state.correct_guesses_arr)
+    display_incorrect_guesses(@state.incorrect_guesses_arr)
     display_lives_remaining
     display_letters_remaining
     puts "- - - - - - - - - - - "
@@ -57,9 +57,8 @@ class Controller
   end
 
 
-  def get_admin_input(admin_input)
+  def admin_input_valid?(admin_input)
     @validate.validate_admin_input(admin_input)
-    @admin_input_submitted = true
   end
 
   def create_status_display(admin_input, user_input = nil)
@@ -85,14 +84,12 @@ class Controller
     puts "--> 😁 Letters remaining: #{@letters_remaining}\n\n"
   end
 
-  def display_correct_guesses
-    correct_guesses_display = @state.correct_guesses_arr.join(' ')
-    puts "Correct guesses made: #{correct_guesses_display}\n"
+  def display_correct_guesses(correct_guesses_arr)
+    puts "Correct guesses made: #{correct_guesses_arr.join(' ')}\n"
   end
 
-  def display_incorrect_guesses
-    incorrect_guesses_display = @state.incorrect_guesses_arr.join(' ')
-    puts "Incorrect guesses made: #{incorrect_guesses_display}\n"
+  def display_incorrect_guesses(incorrect_guesses_arr)
+    puts "Incorrect guesses made: #{incorrect_guesses_arr.join(' ')}\n"
   end
 
 
