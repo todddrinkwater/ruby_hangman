@@ -1,8 +1,13 @@
 require_relative 'state'
 require_relative 'input_output'
 require_relative 'validate'
+require 'byebug'
 
-# controller is purely an orchestrator
+#TODO: try to get rid of instance variables, by passing around local vars into methods.
+#TODO: try to reduce duplication.
+#TODO: move methods into appropriate class once theme presents itself.
+#TODO: Bug - allows win if admin_input == 0
+
 class Controller
   attr_reader :input_output, :state, :validate
   attr_accessor :admin_input
@@ -15,25 +20,28 @@ class Controller
 
   def game_flow
     new_game
-    admin_start
-    until get_admin_input === true do
-      admin_start
+    welcome_message
+    admin_input = @input_output.admin_input
+    until get_admin_input(admin_input) === true do
+      admin_input = @input_output.admin_input
     end
-    create_status_display
+    create_status_display(admin_input)
     display_lives_remaining
     display_letters_remaining
     until game_won? || game_lost? do
-      take_single_turn
+      take_single_turn(admin_input)
     end
   end
 
-  def take_single_turn
-    show_player_input_message
-    until player_input_valid? == true do
-      show_player_input_message
+  def take_single_turn(admin_input)
+    user_input = @input_output.user_input
+    until player_input_valid?(user_input) == true && letter_not_guessed_yet?(user_input) do
+      user_input = @input_output.user_input
     end
-    if not_already_guessed? then is_guess_correct?; end
-    create_status_display
+    is_guess_correct(admin_input, user_input)
+    create_status_display(admin_input, user_input)
+    display_correct_guesses
+    display_incorrect_guesses
     display_lives_remaining
     display_letters_remaining
     puts "- - - - - - - - - - - "
@@ -44,26 +52,24 @@ class Controller
     input_output.welcome_message
   end
 
-  def admin_start
+  def welcome_message
     @input_output.admin_input_message
-    @admin_input = input_output.admin_input
   end
 
 
-  def get_admin_input
-    @validate.validate_admin_input(@admin_input)
+  def get_admin_input(admin_input)
+    @validate.validate_admin_input(admin_input)
     @admin_input_submitted = true
   end
 
-  def create_status_display
-    @admin_input = admin_input
-    @admin_input_arr = @admin_input.chars
-    if @user_input == nil
+  def create_status_display(admin_input, user_input = nil)
+    admin_input_arr = admin_input.chars #up to here
+    if user_input == nil
       admin_input.length.times { @state.word_display.push("_") }
       display_str = @state.word_display.join(' ')
       print "#{display_str}\n"
     else
-      @state.word_display = @admin_input_arr.map { |letter| @state.correct_guesses_arr.include?(letter) ? letter : "_" }
+      @state.word_display = admin_input_arr.map { |letter|    @state.correct_guesses_arr.include?(letter) ? letter : "_" }
       display_str = @state.word_display.join(' ')
       print "#{display_str}\n"
     end
@@ -79,28 +85,34 @@ class Controller
     puts "--> 😁 Letters remaining: #{@letters_remaining}\n\n"
   end
 
-  def show_player_input_message
-    @user_input = @input_output.user_input
+  def display_correct_guesses
+    correct_guesses_display = @state.correct_guesses_arr.join(' ')
+    puts "Correct guesses made: #{correct_guesses_display}\n"
   end
 
-  def player_input_valid?
-    @validate.validate_player_input(@user_input)
-
+  def display_incorrect_guesses
+    incorrect_guesses_display = @state.incorrect_guesses_arr.join(' ')
+    puts "Incorrect guesses made: #{incorrect_guesses_display}\n"
   end
 
-  def is_guess_correct?
-    if @admin_input_arr.include?(@user_input)
-      @state.correct_guesses_arr.push(@user_input)
+
+  def player_input_valid?(user_input)
+    @validate.validate_player_input(user_input)
+  end
+
+  def is_guess_correct(guess_word, user_guess)
+    guess_word = guess_word.chars
+    if guess_word.include?(user_guess)
+      @state.correct_guesses_arr.push(user_guess)
       puts "Correct!"
     else
-      @state.incorrect_guesses_arr.push(@user_input)
+      @state.incorrect_guesses_arr.push(user_guess)
       puts "Unlucky!"
     end
   end
 
-  def not_already_guessed?
-    all_guesses = @state.correct_guesses_arr.concat(@state.incorrect_guesses_arr)
-    if all_guesses.include?(@user_input)
+  def letter_not_guessed_yet?(user_input)
+    if @state.correct_guesses_arr.include?(user_input) || @state.incorrect_guesses_arr.include?(user_input)
       puts "You've already guessed this letter!"
       return false
     end

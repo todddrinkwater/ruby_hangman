@@ -50,3 +50,5 @@ b. If guessesRemaining < 0 display "GAME OVER."
 b. Display "You win!" if letters remaining < 1
 
 Tests...
+
+byebug - code inspector
