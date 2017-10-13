@@ -35,11 +35,11 @@ class Controller
 
   def take_single_turn(admin_input)
     user_input = @input_output.user_input
-    until player_input_valid?(user_input) == true && letter_not_guessed_yet?(user_input) do
+    until player_input_valid?(user_input) && letter_not_guessed_yet?(user_input) do
       user_input = @input_output.user_input
     end
     is_guess_correct(admin_input, user_input)
-    create_status_display(admin_input, user_input)
+    create_status_display(admin_input)
     display_correct_guesses(@state.correct_guesses_arr)
     display_incorrect_guesses(@state.incorrect_guesses_arr)
     display_lives_remaining
@@ -61,17 +61,11 @@ class Controller
     @validate.validate_admin_input(admin_input)
   end
 
-  def create_status_display(admin_input, user_input = nil)
-    admin_input_arr = admin_input.chars #up to here
-    if user_input == nil
-      admin_input.length.times { @state.word_display.push("_") }
-      display_str = @state.word_display.join(' ')
-      print "#{display_str}\n"
-    else
+  def create_status_display(admin_input)
+    admin_input_arr = admin_input.chars
       @state.word_display = admin_input_arr.map { |letter|    @state.correct_guesses_arr.include?(letter) ? letter : "_" }
       display_str = @state.word_display.join(' ')
       print "#{display_str}\n"
-    end
   end
 
   def display_lives_remaining
@@ -98,8 +92,8 @@ class Controller
   end
 
   def is_guess_correct(guess_word, user_guess)
-    guess_word = guess_word.chars
-    if guess_word.include?(user_guess)
+    guess_word_arr = guess_word.chars
+    if guess_word_arr.include?(user_guess)
       @state.correct_guesses_arr.push(user_guess)
       puts "Correct!"
     else
