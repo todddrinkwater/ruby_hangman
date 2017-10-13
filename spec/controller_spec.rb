@@ -3,21 +3,39 @@
 
 RSpec.describe Controller do
   describe "new controller" do
-    it "creates new state" do
-      controller = Controller.new
-      expect(controller.state).to be_an_instance_of(State)
+
+    before :each do
+     @controller = Controller.new
     end
 
-    it "creates a welcome to Hangman message" do
-      controller = Controller.new
-      expect(controller.new_game) == "WELCOME to HANGMAN, MANNNNNN \n - - - - - - - - - - - - -"
+    it "creates an an instance of the controller class" do
+      expect(@controller).to be_an_instance_of(Controller)
+    end
+
+    it "creates new state" do
+      expect(@controller.state).to be_an_instance_of(State)
+    end
+
+    it "creates a welcome message" do
+      expect(@controller.new_game) == "WELCOME to HANGMAN, MANNNNNN \n - - - - - - - - - - - - -"
     end
 
     it "successfully grabs number of lives_remaining" do
-      controller = Controller.new
-      expect(controller.display_lives_remaining) == 7
+      expect(@controller.display_lives_remaining) == 7
     end
   end
-
-
 end
+
+
+
+# Reference
+# . --> class method
+# # --> instance method
+
+# describe '.authenticate' do
+# describe '#admin?' do
+
+# creates an instance of Controller before each test.
+# before :each do
+#  @controller = Controller.new
+# end
