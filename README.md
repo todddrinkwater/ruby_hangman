@@ -7,7 +7,7 @@ Hangman built in Ruby
 - Group code reviews
 
 - As a hangman player, I would like to be able to start a new game of hangman
-- As a hangman player, I would like to see some indication of how many letters there are in the word that I am supposed to guess
+- As a hangman player, I would like to see some indication of how many letters there are in the word that I am supposed to guess X
 - As a hangman player, I want to submit one letter guesses and be told whether my guess is either in the word, not in the word, or already guessed
 - As a hangman player, I want the game to handle bad input (like numbers, symbols, and letters I've previously guessed) gracefully and with an appropriate error message so that I am not punished unduly for mistakes
 - As a hangman player, I want to see the letters I've guessed correctly revealed on the hidden word that I am trying to guess so that I can guess the word more readily

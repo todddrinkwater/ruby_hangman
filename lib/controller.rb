@@ -32,10 +32,11 @@ class Controller
     until player_input_valid? == true do
       show_player_input_message
     end
-    guess_correct?
+    if not_already_guessed? then is_guess_correct?; end
     create_status_display
     display_lives_remaining
     display_letters_remaining
+    puts "- - - - - - - - - - - "
   end
 
 
@@ -70,12 +71,12 @@ class Controller
 
   def display_lives_remaining
     @lives_remaining = @state.lives_remaining - @state.incorrect_guesses_arr.length
-    puts "--> Lives remaining: #{@lives_remaining}"
+    puts "--> 😩 Lives remaining: #{@lives_remaining}"
   end
 
   def display_letters_remaining
     @letters_remaining = @state.word_display.count("_")
-    puts "--> Letters remaining: #{@letters_remaining}\n\n"
+    puts "--> 😁 Letters remaining: #{@letters_remaining}\n\n"
   end
 
   def show_player_input_message
@@ -84,15 +85,31 @@ class Controller
 
   def player_input_valid?
     @validate.validate_player_input(@user_input)
+
   end
 
-  def guess_correct?
-    @admin_input_arr.include?(@user_input) ? @state.correct_guesses_arr.push(@user_input) : @state.incorrect_guesses_arr.push(@user_input)
+  def is_guess_correct?
+    if @admin_input_arr.include?(@user_input)
+      @state.correct_guesses_arr.push(@user_input)
+      puts "Correct!"
+    else
+      @state.incorrect_guesses_arr.push(@user_input)
+      puts "Unlucky!"
+    end
+  end
+
+  def not_already_guessed?
+    all_guesses = @state.correct_guesses_arr.concat(@state.incorrect_guesses_arr)
+    if all_guesses.include?(@user_input)
+      puts "You've already guessed this letter!"
+      return false
+    end
+    true
   end
 
   def game_won?
     if @letters_remaining < 1
-      puts "You win!"
+      puts "You win! 😎"
       true
     else
       false
@@ -101,7 +118,7 @@ class Controller
 
   def game_lost?
     if @lives_remaining < 1
-      puts "You lose."
+      puts "You lose. 💀 👻"
       true
     else
       false
