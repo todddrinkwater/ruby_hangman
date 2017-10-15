@@ -5,7 +5,7 @@ class InputOutput
   end
 
   def welcome_message
-    puts "WELCOME to HANGMAN, MANNNNNN \n - - - - - - - - - - - - -"
+    puts "WELCOME to HANGMAN."
   end
 
   def admin_input_message
@@ -32,12 +32,16 @@ class InputOutput
   def display_letters_remaining(letters_remaining)
     puts "--> 😁 Letters remaining: #{letters_remaining}\n\n"
   end
-  
+
   def display_correct_guesses(correct_guesses_arr)
     puts "Correct guesses made: #{correct_guesses_arr.join(' ')}\n"
   end
 
   def display_incorrect_guesses(incorrect_guesses_arr)
     puts "Incorrect guesses made: #{incorrect_guesses_arr.join(' ')}\n"
+  end
+
+  def show_player_progress(word_display)
+    print "#{word_display.join(' ')}\n"
   end
 end

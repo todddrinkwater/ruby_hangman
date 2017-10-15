@@ -25,7 +25,7 @@ class Controller
       admin_input = @input_output.admin_input
     end
     calc_lives_remaining(@state.lives_remaining, @state.incorrect_guesses_arr)
-    create_status_display(admin_input)
+    @input_output.show_player_progress(calc_player_progress(admin_input))
     calc_letters_remaining
     @input_output.display_lives_remaining(@state.lives_remaining)
     @input_output.display_letters_remaining(@letters_remaining)
@@ -40,7 +40,7 @@ class Controller
       user_input = @input_output.user_input
     end
     is_guess_correct(admin_input, user_input)
-    create_status_display(admin_input)
+    @input_output.show_player_progress(calc_player_progress(admin_input))
     calc_letters_remaining
     @input_output.display_correct_guesses(@state.correct_guesses_arr)
     @input_output.display_incorrect_guesses(@state.incorrect_guesses_arr)
@@ -62,11 +62,11 @@ class Controller
     @validate.validate_admin_input(admin_input)
   end
 
-  def create_status_display(admin_input)
+  def calc_player_progress(admin_input)
     admin_input_arr = admin_input.chars
     @state.word_display = admin_input_arr.map { |letter|  @state.correct_guesses_arr.include?(letter) ? letter : "_" }
-    print "#{@state.word_display.join(' ')}\n"
   end
+
 
   def calc_lives_remaining(lives_remaining, incorrect_guesses_arr)
     @lives_remaining = lives_remaining - incorrect_guesses_arr.length
@@ -76,9 +76,6 @@ class Controller
   def calc_letters_remaining
     @letters_remaining = @state.word_display.count("_")
   end
-
-
-
 
 
   def player_input_valid?(user_input)
@@ -99,7 +96,7 @@ class Controller
   def letter_not_guessed_yet?(user_input)
     if @state.correct_guesses_arr.include?(user_input) || @state.incorrect_guesses_arr.include?(user_input)
       puts "You've already guessed this letter!"
-      return false
+      false
     end
     true
   end
