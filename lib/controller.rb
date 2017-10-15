@@ -96,7 +96,7 @@ class Controller
   def letter_not_guessed_yet?(user_input)
     if @state.correct_guesses_arr.include?(user_input) || @state.incorrect_guesses_arr.include?(user_input)
       puts "You've already guessed this letter!"
-      false
+      return false
     end
     true
   end

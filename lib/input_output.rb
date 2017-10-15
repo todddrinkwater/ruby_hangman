@@ -1,9 +1,4 @@
 class InputOutput
-  attr_reader :welcome_message
-  def initialize
-    super
-  end
-
   def welcome_message
     puts "WELCOME to HANGMAN."
   end
