@@ -1,6 +1,7 @@
 class Validate # Don't break up into other classes until you see a need / clear theme.
 
   def validate_admin_input(admin_input)
+    #return false unless admin_input
     regex_comparison = /[\d\s_\W]+/
     type_check = admin_input.scan(regex_comparison)
     if admin_input.length < 1

@@ -39,4 +39,12 @@ class InputOutput
   def show_player_progress(word_display)
     print "#{word_display.join(' ')}\n"
   end
+
+  def guess_correct
+    puts "Correct!"
+  end
+
+  def guess_incorrect
+    puts "Unlucky!"
+  end
 end
