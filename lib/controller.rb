@@ -24,15 +24,16 @@ class Controller
     until admin_input_valid?(admin_input) === true do
       admin_input = @input_output.admin_input
     end
+    calc_lives_remaining(@state.lives_remaining, @state.incorrect_guesses_arr)
     create_status_display(admin_input)
-    display_lives_remaining
+    display_lives_remaining(@state.lives_remaining)
     display_letters_remaining
     until game_won? || game_lost? do
-      take_single_turn(admin_input)
+      take_single_turn(admin_input, @state.lives_remaining)
     end
   end
 
-  def take_single_turn(admin_input)
+  def take_single_turn(admin_input, lives_remaining)
     user_input = @input_output.user_input
     until player_input_valid?(user_input) && letter_not_guessed_yet?(user_input) do
       user_input = @input_output.user_input
@@ -41,7 +42,7 @@ class Controller
     create_status_display(admin_input)
     display_correct_guesses(@state.correct_guesses_arr)
     display_incorrect_guesses(@state.incorrect_guesses_arr)
-    display_lives_remaining
+    display_lives_remaining(calc_lives_remaining(@state.lives_remaining, @state.incorrect_guesses_arr))
     display_letters_remaining
     puts "- - - - - - - - - - - "
   end
@@ -55,7 +56,6 @@ class Controller
     @input_output.admin_input_message
   end
 
-
   def admin_input_valid?(admin_input)
     @validate.validate_admin_input(admin_input)
   end
@@ -66,9 +66,12 @@ class Controller
     print "#{@state.word_display.join(' ')}\n"
   end
 
-  def display_lives_remaining
-    @lives_remaining = @state.lives_remaining - @state.incorrect_guesses_arr.length
-    puts "--> 😩 Lives remaining: #{@lives_remaining}"
+  def calc_lives_remaining(lives_remaining, incorrect_guesses_arr)
+    @lives_remaining = lives_remaining - incorrect_guesses_arr.length
+  end
+
+  def display_lives_remaining(lives_remaining)
+    puts "--> 😩 Lives remaining: #{lives_remaining}"
   end
 
   def display_letters_remaining
