@@ -25,4 +25,8 @@ class InputOutput
     gets.chomp
   end
 
+  def display_lives_remaining(lives_remaining)
+    puts "--> 😩 Lives remaining: #{lives_remaining}"
+  end
+
 end
