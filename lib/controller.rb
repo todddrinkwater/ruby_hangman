@@ -28,7 +28,7 @@ class Controller
     create_status_display(admin_input)
     calc_letters_remaining
     @input_output.display_lives_remaining(@state.lives_remaining)
-    display_letters_remaining(@letters_remaining)
+    @input_output.display_letters_remaining(@letters_remaining)
     until game_won? || game_lost? do
       take_single_turn(admin_input, @state.lives_remaining)
     end
@@ -42,10 +42,10 @@ class Controller
     is_guess_correct(admin_input, user_input)
     create_status_display(admin_input)
     calc_letters_remaining
-    display_correct_guesses(@state.correct_guesses_arr)
-    display_incorrect_guesses(@state.incorrect_guesses_arr)
+    @input_output.display_correct_guesses(@state.correct_guesses_arr)
+    @input_output.display_incorrect_guesses(@state.incorrect_guesses_arr)
     @input_output.display_lives_remaining(calc_lives_remaining(@state.lives_remaining, @state.incorrect_guesses_arr))
-    display_letters_remaining(@letters_remaining)
+    @input_output.display_letters_remaining(@letters_remaining)
     puts "- - - - - - - - - - - "
   end
 
@@ -78,13 +78,7 @@ class Controller
   end
 
 
-  def display_correct_guesses(correct_guesses_arr)
-    puts "Correct guesses made: #{correct_guesses_arr.join(' ')}\n"
-  end
 
-  def display_incorrect_guesses(incorrect_guesses_arr)
-    puts "Incorrect guesses made: #{incorrect_guesses_arr.join(' ')}\n"
-  end
 
 
   def player_input_valid?(user_input)
