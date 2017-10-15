@@ -1,6 +1,6 @@
 class InputOutput
   def welcome_message
-    puts "WELCOME to HANGMAN."
+    puts "WELCOME to HANGMAN. \n"
   end
 
   def admin_input_message

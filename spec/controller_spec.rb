@@ -17,7 +17,7 @@ RSpec.describe Controller do
     end
 
     it "creates a welcome message" do
-      expect(@controller.new_game) == "WELCOME to HANGMAN, MANNNNNN \n - - - - - - - - - - - - -"
+      expect(@controller.new_game) === "WELCOME to HANGMAN. \n"
     end
 
     it "successfully grabs number of lives_remaining" do

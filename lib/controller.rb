@@ -7,6 +7,9 @@ require 'byebug'
 #TODO: try to reduce duplication.
 #TODO: move methods into appropriate class once theme presents itself.
 
+#TODO: Remove duplication lines 26-29, while loops.
+
+
 class Controller
   attr_reader :input_output, :state, :validate
   attr_accessor :admin_input
@@ -20,32 +23,30 @@ class Controller
   def game_flow
     new_game
     welcome_message
-    admin_input = @input_output.admin_input
-    until admin_input_valid?(admin_input) === true do
-      admin_input = @input_output.admin_input
-    end
-    calc_lives_remaining(@state.lives_remaining, @state.incorrect_guesses_arr)
-    @input_output.show_player_progress(calc_player_progress(admin_input))
-    calc_letters_remaining
-    @input_output.display_lives_remaining(@state.lives_remaining)
-    @input_output.display_letters_remaining(@letters_remaining)
+    admin_input = input_output.admin_input
+    admin_input = input_output.admin_input until admin_input_valid?(admin_input)
+    lives_remaining(state.total_lives, state.incorrect_guesses_arr)
+    input_output.show_player_progress(player_progress(admin_input))
+    letters_remaining
+    input_output.display_lives_remaining(state.total_lives)
+    input_output.display_letters_remaining(@letters_remaining)
     until game_won? || game_lost? do
-      take_single_turn(admin_input, @state.lives_remaining)
+      take_single_turn(admin_input, state.total_lives)
     end
   end
 
   def take_single_turn(admin_input, lives_remaining)
-    user_input = @input_output.user_input
+    user_input = input_output.user_input
     until player_input_valid?(user_input) && letter_not_guessed_yet?(user_input) do
-      user_input = @input_output.user_input
+      user_input = input_output.user_input
     end
     is_guess_correct(admin_input, user_input)
-    @input_output.show_player_progress(calc_player_progress(admin_input))
-    calc_letters_remaining
-    @input_output.display_correct_guesses(@state.correct_guesses_arr)
-    @input_output.display_incorrect_guesses(@state.incorrect_guesses_arr)
-    @input_output.display_lives_remaining(calc_lives_remaining(@state.lives_remaining, @state.incorrect_guesses_arr))
-    @input_output.display_letters_remaining(@letters_remaining)
+    input_output.show_player_progress(player_progress(admin_input))
+    letters_remaining
+    input_output.display_correct_guesses(state.correct_guesses_arr)
+    input_output.display_incorrect_guesses(state.incorrect_guesses_arr)
+    input_output.display_lives_remaining(lives_remaining(state.total_lives, state.incorrect_guesses_arr))
+    input_output.display_letters_remaining(@letters_remaining)
     puts "- - - - - - - - - - - "
   end
 
@@ -55,46 +56,49 @@ class Controller
   end
 
   def welcome_message
-    @input_output.admin_input_message
+    input_output.admin_input_message
   end
 
   def admin_input_valid?(admin_input)
-    @validate.validate_admin_input(admin_input)
+    validate.validate_admin_input(admin_input)
   end
 
-  def calc_player_progress(admin_input)
+  def player_progress(admin_input)
     admin_input_arr = admin_input.chars
-    @state.word_display = admin_input_arr.map { |letter|  @state.correct_guesses_arr.include?(letter) ? letter : "_" }
+    state.word_display = admin_input_arr.map { |letter|  state.correct_guesses_arr.include?(letter) ? letter : "_" }
   end
 
-
-  def calc_lives_remaining(lives_remaining, incorrect_guesses_arr)
+ #TODO: move to State, rename lives_remaining argument to total_lives
+ #TODO: remove calc from lines 76 and 81, plus method calls
+ #TODO: rename method to lives remaining, remove instance variable.
+  def lives_remaining(lives_remaining, incorrect_guesses_arr)
     @lives_remaining = lives_remaining - incorrect_guesses_arr.length
   end
 
-
-  def calc_letters_remaining
-    @letters_remaining = @state.word_display.count("_")
+#TODO: Have a look into word_display logic. Move to state.
+  def letters_remaining
+    @letters_remaining = state.word_display.count("_")
   end
 
 
   def player_input_valid?(user_input)
-    @validate.validate_player_input(user_input)
+    validate.validate_player_input(user_input)
   end
 
+#TODO: Refactor into two methods and look at renaming to suit what it does.
   def is_guess_correct(guess_word, user_guess)
-    guess_word_arr = guess_word.chars
-    if guess_word_arr.include?(user_guess)
-      @state.correct_guesses_arr.push(user_guess)
+    if guess_word.chars.include?(user_guess)
+      state.correct_guesses_arr.push(user_guess)
       puts "Correct!"
     else
-      @state.incorrect_guesses_arr.push(user_guess)
+      state.incorrect_guesses_arr.push(user_guess)
       puts "Unlucky!"
     end
   end
 
+#TODO: Rename: ? Signals a boolean value
   def letter_not_guessed_yet?(user_input)
-    if @state.correct_guesses_arr.include?(user_input) || @state.incorrect_guesses_arr.include?(user_input)
+    if state.correct_guesses_arr.include?(user_input) || state.incorrect_guesses_arr.include?(user_input)
       puts "You've already guessed this letter!"
       return false
     end
@@ -118,4 +122,5 @@ class Controller
       false
     end
   end
+
 end
