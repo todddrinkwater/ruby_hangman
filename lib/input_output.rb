@@ -29,4 +29,7 @@ class InputOutput
     puts "--> 😩 Lives remaining: #{lives_remaining}"
   end
 
+  def display_letters_remaining(letters_remaining)
+    puts "--> 😁 Letters remaining: #{letters_remaining}\n\n"
+  end
 end
