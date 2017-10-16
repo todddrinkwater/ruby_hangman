@@ -24,7 +24,6 @@ class Controller
     @validate = Validate.new
   end
 
-
   def game_flow
     input_output.welcome_message
     input_output.admin_input_message
@@ -48,7 +47,6 @@ class Controller
       user_input = input_output.user_input;
       input_output.invalid_letter
     end
-    #TODO: Get rid of "is", "as" etc. and assign is_guess_correct to var above.
     update_guesses(guess_correct?(guess_word, user_input), user_input)
     #TODO: Refactor (as in method above) into a single method.
     input_output.show_player_progress(state.player_progress(guess_word))
@@ -59,11 +57,9 @@ class Controller
     input_output.line_break
   end
 
-
   def admin_input_valid?(admin_input)
     validate.validate_admin_input(admin_input)
   end
-
 
   def update_guesses(correct, user_guess)
     if correct
@@ -73,26 +69,16 @@ class Controller
     end
   end
 
-
   def guess_correct?(guess_word, user_guess)
-    if guess_word.chars.include?(user_guess)
-      true
-    else
-      false
-    end
+    guess_word.chars.include?(user_guess)
   end
-
 
   def already_guessed?(user_input)
     state.correct_guesses.include?(user_input) || state.incorrect_guesses.include?(user_input)
   end
 
   def game_over?(state)
-    if state.letters_remaining < 1
-      true
-    elsif state.lives_remaining < 1
-      true
-    end
+    state.letters_remaining < 1 || state.lives_remaining < 1
   end
 
   def game_over_message
@@ -104,6 +90,7 @@ class Controller
   end
 
   def letter_ok?(guess_word, user_input)
+    puts guess_correct?(guess_word, user_input)
     validate.validate_player_input(user_input) && guess_correct?(guess_word, user_input)
   end
 
