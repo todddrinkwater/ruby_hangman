@@ -48,14 +48,14 @@ class InputOutput
     puts "Unlucky!"
   end
 
-  def already_guessed
-    puts "You've already guessed this letter!"
+  def invalid_letter
+    puts "Please enter a letter that is VALID and not already guessed."
   end
 
   def game_won
     puts "You win! 😎"
   end
-  
+
   def game_lost
     puts "You lose. 💀 👻"
   end

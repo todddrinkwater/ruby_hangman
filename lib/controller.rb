@@ -44,7 +44,10 @@ class Controller
 
   def take_single_turn(guess_word, lives_remaining)
     user_input = input_output.user_input
-    until letter_ok?(user_input) do user_input = input_output.user_input; end
+    until letter_ok?(guess_word, user_input) do
+      user_input = input_output.user_input;
+      input_output.invalid_letter
+    end
     #TODO: Get rid of "is", "as" etc. and assign is_guess_correct to var above.
     update_guesses(guess_correct?(guess_word, user_input), user_input)
     #TODO: Refactor (as in method above) into a single method.
@@ -88,13 +91,8 @@ class Controller
   end
 
 
-#TODO: Rename: ? Signals a boolean value
-  def letter_not_guessed_yet?(user_input)
-    if state.correct_guesses.include?(user_input) || state.incorrect_guesses.include?(user_input)
-      input_output.already_guessed
-      return false
-    end
-    true
+  def already_guessed?(user_input)
+    state.correct_guesses.include?(user_input) || state.incorrect_guesses.include?(user_input)
   end
 
   def game_over?(state)
@@ -113,8 +111,8 @@ class Controller
     end
   end
 
-  def letter_ok?(user_input)
-    validate.validate_player_input(user_input) && letter_not_guessed_yet?(user_input)
+  def letter_ok?(guess_word, user_input)
+    validate.validate_player_input(user_input) && guess_correct?(guess_word, user_input)
   end
 
 end
