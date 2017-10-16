@@ -33,11 +33,11 @@ class Controller
 
     state.lives_remaining
     input_output.show_player_progress(state.player_progress(admin_input))
-    letters_remaining
+    state.letters_remaining
     input_output.display_lives_remaining(state.total_lives)
-    input_output.display_letters_remaining(letters_remaining)
+    input_output.display_letters_remaining(state.letters_remaining)
 
-    until game_won?(letters_remaining) || game_lost?(state.lives_remaining) do
+    until game_won?(state.letters_remaining) || game_lost?(state.lives_remaining) do
       take_single_turn(admin_input, state.total_lives)
     end
   end
@@ -51,11 +51,11 @@ class Controller
     update_guesses(is_guess_correct?(admin_input, user_input), user_input)
 
     input_output.show_player_progress(state.player_progress(admin_input))
-    letters_remaining
+    state.letters_remaining
     input_output.display_correct_guesses(state.correct_guesses)
     input_output.display_incorrect_guesses(state.incorrect_guesses)
     input_output.display_lives_remaining(state.lives_remaining)
-    input_output.display_letters_remaining(letters_remaining)
+    input_output.display_letters_remaining(state.letters_remaining)
     puts "- - - - - - - - - - - "
   end
 
@@ -73,15 +73,11 @@ class Controller
   end
 
 
- #TODO: move to State,
-  # def lives_remaining(state)
-  #   state.total_lives - state.incorrect_guesses.length
-  # end
 
 #TODO: Have a look into word_display logic. Move to state.
-  def letters_remaining
-    state.word_display.count("_")
-  end
+  # def letters_remaining
+  #   state.word_display.count("_")
+  # end
 
 
   def player_input_valid?(user_input)
