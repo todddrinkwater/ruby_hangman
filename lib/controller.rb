@@ -16,7 +16,7 @@ require 'byebug'
 
 class Controller
   attr_reader :input_output, :state, :validate
-  attr_accessor :admin_input
+  attr_accessor :guess_word
 
   def initialize(input_output: InputOutput.new)
     @input_output = input_output
@@ -28,30 +28,31 @@ class Controller
   def game_flow
     new_game
     welcome_message
+    #TODO: admin_input does not say what the data is. Rename.
+    guess_word = input_output.admin_input until admin_input_valid?(guess_word) #TODO: call this method directly.
 
-    admin_input = input_output.admin_input until admin_input_valid?(admin_input)
-
-    state.lives_remaining
-    input_output.show_player_progress(state.player_progress(admin_input))
-    state.letters_remaining
+    #TODO: refactor this to a seperate method
+    input_output.show_player_progress(state.player_progress(guess_word))
     input_output.display_lives_remaining(state.total_lives)
     input_output.display_letters_remaining(state.letters_remaining)
 
+    #TODO: Line 40 into one method that can be called with single argument.
     until game_won?(state.letters_remaining) || game_lost?(state.lives_remaining) do
-      take_single_turn(admin_input, state.total_lives)
+      take_single_turn(guess_word, state.total_lives)
     end
+
   end
 
-  def take_single_turn(admin_input, lives_remaining)
+  def take_single_turn(guess_word, lives_remaining)
     user_input = input_output.user_input
+    #TODO: Refactor into method, because of same arguments etc.
     until player_input_valid?(user_input) && letter_not_guessed_yet?(user_input) do
       user_input = input_output.user_input
     end
-
-    update_guesses(is_guess_correct?(admin_input, user_input), user_input)
-
-    input_output.show_player_progress(state.player_progress(admin_input))
-    state.letters_remaining
+    #TODO: Get rid of "is", "as" etc. and assign is_guess_correct to var above.
+    update_guesses(is_guess_correct?(guess_word, user_input), user_input)
+    #TODO: Refactor (as in method above) into a single method.
+    input_output.show_player_progress(state.player_progress(guess_word))
     input_output.display_correct_guesses(state.correct_guesses)
     input_output.display_incorrect_guesses(state.incorrect_guesses)
     input_output.display_lives_remaining(state.lives_remaining)
@@ -60,11 +61,11 @@ class Controller
   end
 
 
-  def new_game
+  def new_game #change name!
     input_output.welcome_message
   end
 
-  def welcome_message
+  def welcome_message #change also!
     input_output.admin_input_message
   end
 
@@ -73,22 +74,13 @@ class Controller
   end
 
 
-
-#TODO: Have a look into word_display logic. Move to state.
-  # def letters_remaining
-  #   state.word_display.count("_")
-  # end
-
-
   def player_input_valid?(user_input)
     validate.validate_player_input(user_input)
   end
 
- # if is_guess_correct? then update_guesses
- # input_output.guess_correct
- # input_output.guess_incorrect
-  def update_guesses(bool, user_guess)
-    if bool
+
+  def update_guesses(correct, user_guess)
+    if correct
       state.correct_guesses.push(user_guess)
     else
       state.incorrect_guesses.push(user_guess)
@@ -106,12 +98,10 @@ class Controller
 
 
 #TODO: Refactor into two methods and look at renaming to suit what it does.
-  def is_guess_correct(guess_word, user_guess)
-    if guess_word.chars.include?(user_guess)
-      state.correct_guesses.push(user_guess)
+  def is_guess_correct(bool)
+    if bool
       input_output.guess_correct
     else
-      state.incorrect_guesses.push(user_guess)
       input_output.guess_incorrect
     end
   end
@@ -125,6 +115,7 @@ class Controller
     true
   end
 
+#TODO: remove everything but eval bool
   def game_won?(letters_remaining)
     if letters_remaining < 1
       puts "You win! 😎"
@@ -134,6 +125,7 @@ class Controller
     end
   end
 
+#TODO: remove everything but eval bool
   def game_lost?(lives_remaining)
     if lives_remaining < 1
       puts "You lose. 💀 👻"
