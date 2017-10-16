@@ -51,4 +51,12 @@ class InputOutput
   def already_guessed
     puts "You've already guessed this letter!"
   end
+
+  def game_won
+    puts "You win! 😎"
+  end
+  
+  def game_lost
+    puts "You lose. 💀 👻"
+  end
 end
