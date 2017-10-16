@@ -59,4 +59,8 @@ class InputOutput
   def game_lost
     puts "You lose. 💀 👻"
   end
+
+  def line_break
+    puts "- - - - - - - - - - - "
+  end
 end

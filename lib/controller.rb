@@ -56,7 +56,7 @@ class Controller
     input_output.display_incorrect_guesses(state.incorrect_guesses)
     input_output.display_lives_remaining(state.lives_remaining)
     input_output.display_letters_remaining(state.letters_remaining)
-    puts "- - - - - - - - - - - "
+    input_output.line_break
   end
 
 
