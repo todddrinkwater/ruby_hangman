@@ -24,7 +24,7 @@ class Controller
     @validate = Validate.new
   end
 
-#add whitespace to make more readable
+
   def game_flow
     new_game
     welcome_message
@@ -44,10 +44,7 @@ class Controller
 
   def take_single_turn(guess_word, lives_remaining)
     user_input = input_output.user_input
-    #TODO: Refactor into method, because of same arguments etc.
-    until validate.validate_player_input(user_input) && letter_not_guessed_yet?(user_input) do
-      user_input = input_output.user_input
-    end
+    until letter_ok?(user_input) do user_input = input_output.user_input; end
     #TODO: Get rid of "is", "as" etc. and assign is_guess_correct to var above.
     update_guesses(guess_correct?(guess_word, user_input), user_input)
     #TODO: Refactor (as in method above) into a single method.
@@ -114,6 +111,10 @@ class Controller
     elsif state.lives_remaining < 1
       input_output.game_lost
     end
+  end
+
+  def letter_ok?(user_input)
+    validate.validate_player_input(user_input) && letter_not_guessed_yet?(user_input)
   end
 
 end
