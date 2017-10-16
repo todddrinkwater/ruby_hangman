@@ -47,4 +47,8 @@ class InputOutput
   def guess_incorrect
     puts "Unlucky!"
   end
+
+  def already_guessed
+    puts "You've already guessed this letter!"
+  end
 end
