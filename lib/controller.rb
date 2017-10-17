@@ -18,13 +18,14 @@ class Controller
     input_output.admin_input_message
     guess_word = input_output.admin_input
 
-    until validate.admin_input_length(guess_word) do
-      input_output.more_letters
-      guess_word = input_output.admin_input
-    end
+    # until validate.admin_input_length(guess_word) do
+    #   input_output.more_letters
+    #   guess_word = input_output.admin_input
+    # end
 
     until validate.input_type(guess_word) && validate.admin_input_length(guess_word) do
-      input_output.only_letters
+      input_output.only_letters if !validate.input_type(guess_word)
+      input_output.more_letters if !validate.admin_input_length(guess_word)
       guess_word = input_output.admin_input
     end
 
