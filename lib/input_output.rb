@@ -54,9 +54,13 @@ class InputOutput
   def invalid_letter
     puts "Please enter a letter that is VALID and not already guessed."
   end
-#--- remove other more_letters once method is used
+
   def more_letters
     puts "Please enter at least one letter."
+  end
+
+  def only_letters
+    puts "Please enter only letter characters (incl. no spaces).\n"
   end
 
   def game_won
@@ -65,6 +69,10 @@ class InputOutput
 
   def game_lost
     puts "You lose. 💀 👻"
+  end
+
+  def only_letters
+    puts "Please enter only letter characters (incl. no spaces)\n"
   end
 
   def line_break

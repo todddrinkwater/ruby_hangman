@@ -17,12 +17,16 @@ class Controller
     input_output.welcome_message
     input_output.admin_input_message
     guess_word = input_output.admin_input
+    
     until validate.validate_input_length(guess_word) do
-      guess_word = input_output.admin_input
       input_output.more_letters
+      guess_word = input_output.admin_input
     end
 
-    guess_word = input_output.admin_input until validate.validate_admin_input(guess_word)
+    until validate.validate_admin_input(guess_word) do
+      input_output.only_letters
+      guess_word = input_output.admin_input
+    end
 
     create_display(guess_word, state.total_lives)
 
