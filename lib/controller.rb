@@ -18,11 +18,6 @@ class Controller
     input_output.admin_input_message
     guess_word = input_output.admin_input
 
-    # until validate.admin_input_length(guess_word) do
-    #   input_output.more_letters
-    #   guess_word = input_output.admin_input
-    # end
-
     until validate.input_type(guess_word) && validate.admin_input_length(guess_word) do
       input_output.only_letters if !validate.input_type(guess_word)
       input_output.more_letters if !validate.admin_input_length(guess_word)
@@ -44,14 +39,10 @@ class Controller
     input_output.user_input_message
     user_input = input_output.user_input
 
-    until validate.player_input_length(user_input) do
-      input_output.only_single_letter
-      user_input = input_output.user_input
-    end
-
     until letter_ok?(guess_word, user_input) && validate.player_input_length(user_input) do
-      input_output.invalid_letter
-      user_input = input_output.user_input;
+      input_output.invalid_letter if !letter_ok?(guess_word, user_input)
+      input_output.only_single_letter if !validate.player_input_length(user_input)
+      user_input = input_output.user_input
     end
 
     state.update_guesses(guess_correct?(guess_word, user_input), user_input)
