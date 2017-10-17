@@ -18,14 +18,19 @@ class Validate
     end
   end
 
-  def validate_player_input(user_input)
+  def validate_player_input_length(user_input)
+    if (user_input.length > 1) || (user_input.length <= 0)
+      false
+    else
+      true
+    end
+  end
+
+  def validate_player_input_type(user_input)
     regex_comparison = /[\d\s_\W]/
     type_check = user_input.scan(regex_comparison)
-    puts type_check
-    if (user_input.length > 1) || (user_input.length <= 0)
-      puts "Please enter ONLY a single letter."
-      false
-    elsif type_check.length > 0
+
+    if type_check.length > 0
       puts "Please use only letters."
       false
     else

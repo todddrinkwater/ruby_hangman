@@ -75,6 +75,10 @@ class InputOutput
     puts "Please enter only letter characters (incl. no spaces)\n"
   end
 
+  def only_single_letter
+    puts "Please enter ONLY a single letter."
+  end
+
   def line_break
     puts "- - - - - - - - - - - "
   end
