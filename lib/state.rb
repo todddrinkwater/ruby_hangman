@@ -19,4 +19,13 @@ class State
   def letters_remaining
     word_display.count("_")
   end
+
+  def update_guesses(correct, user_guess)
+    if correct
+      correct_guesses.push(user_guess)
+    elsif !incorrect_guesses.include?(user_guess)
+      incorrect_guesses.push(user_guess)
+    end
+  end
+
 end

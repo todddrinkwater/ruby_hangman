@@ -42,12 +42,16 @@ class Controller
   end
 
   def take_single_turn(guess_word, lives_remaining)
+    input_output.user_input_message
     user_input = input_output.user_input
     until letter_ok?(guess_word, user_input) do
-      user_input = input_output.user_input;
       input_output.invalid_letter
+      user_input = input_output.user_input;
     end
-    update_guesses(guess_correct?(guess_word, user_input), user_input)
+
+    state.update_guesses(guess_correct?(guess_word, user_input), user_input)
+
+
     #TODO: Refactor (as in method above) into a single method.
     input_output.show_player_progress(state.player_progress(guess_word))
     input_output.display_correct_guesses(state.correct_guesses)
@@ -61,13 +65,6 @@ class Controller
     validate.validate_admin_input(admin_input)
   end
 
-  def update_guesses(correct, user_guess)
-    if correct
-      state.correct_guesses.push(user_guess)
-    else
-      state.incorrect_guesses.push(user_guess)
-    end
-  end
 
   def guess_correct?(guess_word, user_guess)
     guess_word.chars.include?(user_guess)
@@ -90,8 +87,7 @@ class Controller
   end
 
   def letter_ok?(guess_word, user_input)
-    puts guess_correct?(guess_word, user_input)
-    validate.validate_player_input(user_input) && guess_correct?(guess_word, user_input)
+    validate.validate_player_input(user_input) && !already_guessed?(user_input)
   end
 
 end

@@ -15,8 +15,11 @@ class InputOutput
     puts "Please enter your guess word:"
   end
 
-  def user_input
+  def user_input_message
     puts "Please guess a letter:"
+  end
+  
+  def user_input
     gets.chomp
   end
 
