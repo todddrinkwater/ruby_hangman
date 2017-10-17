@@ -1,6 +1,6 @@
 class Validate
 
-  def validate_input_length(admin_input)
+  def input_length(admin_input)
     return false unless admin_input
     if admin_input.length < 1 then false
     else
@@ -8,34 +8,15 @@ class Validate
     end
   end
 
-  def validate_admin_input(admin_input)
-    regex_comparison = /[\d\s_\W]+/
+  def input_type(admin_input)
+    regex_comparison = /[\d\s_\W]/
     type_check = admin_input.scan(regex_comparison)
 
-    if type_check.length < 1
-      admin_input.downcase!
-      true
-    end
+    type_check.length < 1 ? true : false
   end
 
-  def validate_player_input_length(user_input)
-    if (user_input.length > 1) || (user_input.length <= 0)
-      false
-    else
-      true
-    end
-  end
-
-  def validate_player_input_type(user_input)
-    regex_comparison = /[\d\s_\W]/
-    type_check = user_input.scan(regex_comparison)
-
-    if type_check.length > 0
-      puts "Please use only letters."
-      false
-    else
-      true
-    end
+  def player_input_length(user_input)
+    user_input.length == 1
   end
 
 end

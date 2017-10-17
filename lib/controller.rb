@@ -18,15 +18,17 @@ class Controller
     input_output.admin_input_message
     guess_word = input_output.admin_input
 
-    until validate.validate_input_length(guess_word) do
+    until validate.input_length(guess_word) do
       input_output.more_letters
       guess_word = input_output.admin_input
     end
 
-    until validate.validate_admin_input(guess_word) do
+    until validate.input_type(guess_word) && validate.input_length(guess_word) do
       input_output.only_letters
       guess_word = input_output.admin_input
     end
+
+    guess_word.downcase!
 
     create_display(guess_word, state.total_lives)
 
@@ -39,14 +41,13 @@ class Controller
 
   def take_single_turn(guess_word, lives_remaining)
     input_output.user_input_message
-    user_input = input_output.user_input
 
-    until validate.validate_player_input_length(user_input) do
+    until validate.player_input_length(user_input) do
+      input_output.only_single_letter
       user_input = input_output.user_input
-      only_single_letter
     end
 
-    until letter_ok?(guess_word, user_input) do
+    until letter_ok?(guess_word, user_input) && validate.player_input_length(user_input) do
       input_output.invalid_letter
       user_input = input_output.user_input;
     end
@@ -89,7 +90,7 @@ class Controller
   end
 
   def letter_ok?(guess_word, user_input)
-    validate.validate_player_input_type(user_input) && !already_guessed?(user_input)
+    validate.input_type(user_input) && !already_guessed?(user_input)
   end
 
 end
