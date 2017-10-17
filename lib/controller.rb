@@ -3,16 +3,6 @@ require_relative 'input_output'
 require_relative 'validate'
 require 'byebug'
 
-#TODO: try to get rid of instance variables, by passing around local vars into methods.
-#TODO: try to reduce duplication.
-#TODO: move methods into appropriate class once theme presents itself.
-
-#TODO: Remove duplication lines 26-29, while loops.
-
-#2: is_guess_correct - worth breaking up? how would I go about it?
-#3: game_flow hard to read
-#4: Messages being refactored but still being called from within functions. A good idea?
-
 
 class Controller
   attr_reader :input_output, :state, :validate
