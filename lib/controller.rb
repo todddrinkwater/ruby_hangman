@@ -29,21 +29,19 @@ class Controller
     input_output.admin_input_message
     guess_word = input_output.admin_input until validate.validate_admin_input(guess_word)
 
-    #TODO: refactor this to a seperate method
-    input_output.show_player_progress(state.player_progress(guess_word))
-    input_output.display_lives_remaining(state.total_lives)
-    input_output.display_letters_remaining(state.letters_remaining)
+    create_display(guess_word, state.total_lives)
 
-    #TODO: Line 40 into one method that can be called with single argument.
     until game_over?(state) do
       take_single_turn(guess_word, state.total_lives)
     end
+
     game_over_message
   end
 
   def take_single_turn(guess_word, lives_remaining)
     input_output.user_input_message
     user_input = input_output.user_input
+
     until letter_ok?(guess_word, user_input) do
       input_output.invalid_letter
       user_input = input_output.user_input;
@@ -51,20 +49,20 @@ class Controller
 
     state.update_guesses(guess_correct?(guess_word, user_input), user_input)
 
+    show_display(guess_word, state.lives_remaining)
+  end
 
-    #TODO: Refactor (as in method above) into a single method.
+  def create_display(guess_word, total_lives)
     input_output.show_player_progress(state.player_progress(guess_word))
     input_output.display_correct_guesses(state.correct_guesses)
     input_output.display_incorrect_guesses(state.incorrect_guesses)
-    input_output.display_lives_remaining(state.lives_remaining)
+    input_output.display_lives_remaining(total_lives)
     input_output.display_letters_remaining(state.letters_remaining)
-    input_output.line_break
   end
 
   def admin_input_valid?(admin_input)
     validate.validate_admin_input(admin_input)
   end
-
 
   def guess_correct?(guess_word, user_guess)
     guess_word.chars.include?(user_guess)
