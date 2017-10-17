@@ -1,6 +1,3 @@
-
-#TODO: find out what is wrong with spec helper
-
 RSpec.describe Controller do
   describe "new controller" do
 
@@ -16,13 +13,13 @@ RSpec.describe Controller do
       expect(@controller.state).to be_an_instance_of(State)
     end
 
-    it "creates a welcome message" do
-      expect(@controller.new_game) === "WELCOME to HANGMAN. \n"
-    end
-
-    it "successfully grabs number of lives_remaining" do
-      expect(@controller.display_lives_remaining) == 7
-    end
+    # it "creates a welcome message" do
+    #   expect(@controller.new_game) === "WELCOME to HANGMAN. \n"
+    # end
+    #
+    # it "successfully grabs number of lives_remaining" do
+    #   expect(@controller.display_lives_remaining) == 7
+    # end
   end
 end
 
