@@ -1,6 +1,6 @@
 class Validate
 
-  def input_length(admin_input)
+  def admin_input_length(admin_input)
     return false unless admin_input
     if admin_input.length < 1 then false
     else
