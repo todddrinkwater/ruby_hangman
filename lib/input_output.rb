@@ -18,7 +18,7 @@ class InputOutput
   def user_input_message
     puts "Please guess a letter:"
   end
-  
+
   def user_input
     gets.chomp
   end
@@ -53,6 +53,10 @@ class InputOutput
 
   def invalid_letter
     puts "Please enter a letter that is VALID and not already guessed."
+  end
+#--- remove other more_letters once method is used
+  def more_letters
+    puts "Please enter at least one letter."
   end
 
   def game_won

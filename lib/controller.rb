@@ -3,7 +3,6 @@ require_relative 'input_output'
 require_relative 'validate'
 require 'byebug'
 
-
 class Controller
   attr_reader :input_output, :state, :validate
   attr_accessor :guess_word
@@ -17,6 +16,12 @@ class Controller
   def game_flow
     input_output.welcome_message
     input_output.admin_input_message
+    guess_word = input_output.admin_input
+    until validate.validate_input_length(guess_word) do
+      guess_word = input_output.admin_input
+      input_output.more_letters
+    end
+
     guess_word = input_output.admin_input until validate.validate_admin_input(guess_word)
 
     create_display(guess_word, state.total_lives)
@@ -39,7 +44,7 @@ class Controller
 
     state.update_guesses(guess_correct?(guess_word, user_input), user_input)
 
-    show_display(guess_word, state.lives_remaining)
+    create_display(guess_word, state.lives_remaining)
   end
 
   def create_display(guess_word, total_lives)
