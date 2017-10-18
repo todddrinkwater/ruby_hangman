@@ -18,9 +18,9 @@ class Controller
     input_output.admin_input_message
     guess_word = input_output.admin_input
 
-    until validate.input_type(guess_word) && validate.admin_input_length(guess_word) do
-      input_output.only_letters if !validate.input_type(guess_word)
-      input_output.more_letters if !validate.admin_input_length(guess_word)
+    until validate.input_type_ok?(guess_word) && validate.admin_input_length?(guess_word) do
+      input_output.only_letters if !validate.input_type_ok?(guess_word)
+      input_output.more_letters if !validate.admin_input_length?(guess_word)
       guess_word = input_output.admin_input
     end
 
@@ -39,9 +39,9 @@ class Controller
     input_output.user_input_message
     user_input = input_output.user_input
 
-    until letter_ok?(guess_word, user_input) && validate.player_input_length(user_input) do
+    until letter_ok?(guess_word, user_input) && validate.player_input_length?(user_input) do
       input_output.invalid_letter if !letter_ok?(guess_word, user_input)
-      input_output.only_single_letter if !validate.player_input_length(user_input)
+      input_output.only_single_letter if !validate.player_input_length?(user_input)
       user_input = input_output.user_input
     end
 
@@ -83,7 +83,7 @@ class Controller
   end
 
   def letter_ok?(guess_word, user_input)
-    validate.input_type(user_input) && !already_guessed?(user_input)
+    validate.input_type_ok?(user_input) && !already_guessed?(user_input)
   end
 
 end
