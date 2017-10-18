@@ -1,6 +1,7 @@
 RSpec.describe Validate do
 
   describe "Validate Class" do
+
     before :each do
       @validate = Validate.new
     end
