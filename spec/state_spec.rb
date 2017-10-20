@@ -26,7 +26,7 @@ RSpec.describe "State" do
 
     end
 
-    describe ".player_progress" do
+    describe "#player_progress" do
 
       it "array with: _ for unguessed, letter for guessed" do
         @state.correct_guesses = %w[h g m]
@@ -35,7 +35,7 @@ RSpec.describe "State" do
 
     end
 
-    describe ".total_lives" do
+    describe "#total_lives" do
 
       it "lives_remaining = 4 when incorrect_guesses.length = 3" do
         @state.incorrect_guesses = %w[c d e]
@@ -44,7 +44,7 @@ RSpec.describe "State" do
 
     end
 
-    describe ".letters_remaining" do
+    describe "#letters_remaining" do
 
       it "returns 2 when word_display == [a _ _]" do
         @state.word_display = %w[a _ _]
@@ -53,7 +53,7 @@ RSpec.describe "State" do
 
     end
 
-    describe ".update_guesses" do
+    describe "#update_guesses" do
 
       it "adds guesses to correct_gueses when correct" do
         @state.correct_guesses = []

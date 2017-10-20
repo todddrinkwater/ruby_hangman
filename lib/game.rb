@@ -3,7 +3,7 @@ require_relative 'input_output'
 require_relative 'validate'
 require 'byebug'
 
-class Controller
+class Game
   attr_reader :input_output, :state, :validate
   attr_accessor :guess_word
 
@@ -13,20 +13,21 @@ class Controller
     @validate = Validate.new
   end
 
-  def game_flow
-    input_output.welcome_message
-    input_output.admin_input_message
-    guess_word = input_output.admin_input
+  def game_start
+    input_output.show_welcome_message
+    
+    input_output.get_guess_word
+    guess_word = input_output.enter_guess_word
 
-    until validate.input_type_ok?(guess_word) && validate.admin_input_length?(guess_word) do
+    until validate.input_type_ok?(guess_word) && validate.admin_input_length_ok?(guess_word) do
       input_output.only_letters if !validate.input_type_ok?(guess_word)
-      input_output.more_letters if !validate.admin_input_length?(guess_word)
-      guess_word = input_output.admin_input
+      input_output.more_letters if !validate.admin_input_length_ok?(guess_word)
+      guess_word = input_output.enter_guess_word
     end
 
     guess_word.downcase!
 
-    create_display(guess_word, state.total_lives)
+    create_progress_display(guess_word, state.total_lives) #create_progess_display   ??
 
     until game_over?(state) do
       take_single_turn(guess_word, state.total_lives)
@@ -39,18 +40,18 @@ class Controller
     input_output.user_input_message
     user_input = input_output.user_input
 
-    until letter_ok?(guess_word, user_input) && validate.player_input_length?(user_input) do
+    until letter_ok?(guess_word, user_input) && validate.player_input_length_ok?(user_input) do
       input_output.invalid_letter if !letter_ok?(guess_word, user_input)
-      input_output.only_single_letter if !validate.player_input_length?(user_input)
+      input_output.only_single_letter if !validate.player_input_length_ok?(user_input)
       user_input = input_output.user_input
     end
 
     state.update_guesses(guess_correct?(guess_word, user_input), user_input)
 
-    create_display(guess_word, state.lives_remaining)
+    create_progress_display(guess_word, state.lives_remaining)
   end
 
-  def create_display(guess_word, total_lives)
+  def create_progress_display(guess_word, total_lives)
     input_output.show_player_progress(state.player_progress(guess_word))
     input_output.display_correct_guesses(state.correct_guesses)
     input_output.display_incorrect_guesses(state.incorrect_guesses)

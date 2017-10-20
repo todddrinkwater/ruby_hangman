@@ -1,13 +1,13 @@
 class InputOutput
-  def welcome_message
+  def show_welcome_message
     puts "WELCOME to HANGMAN. \n"
   end
 
-  def admin_input_message
+  def get_guess_word
     puts "Please enter your choosen word:"
   end
 
-  def admin_input
+  def enter_guess_word
     gets.chomp
   end
 

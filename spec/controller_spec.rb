@@ -1,27 +1,28 @@
-RSpec.describe Controller do
-  describe "new controller" do
+RSpec.describe Game do
+  describe "new Game" do
 
-    before :each do
-     @controller = Controller.new
+    subject(:game) { described_class.new }
+
+    describe '.new' do
+      it "creates an an instance of the Game class" do
+        expect(game).to be_an_instance_of(Game)
+      end
+
+      it "creates new state class" do
+        expect(game.state).to be_an_instance_of(State)
+      end
+
+      it "creates new validate class" do
+        expect(game.validate).to be_an_instance_of(Validate)
+      end
+
+      it "creates new input_output classs" do
+        expect(game.input_output).to be_an_instance_of(InputOutput)
+      end
     end
-
-    it "creates an an instance of the controller class" do
-      expect(@controller).to be_an_instance_of(Controller)
-    end
-
-    it "creates new state" do
-      expect(@controller.state).to be_an_instance_of(State)
-    end
-
-    # it "creates a welcome message" do
-    #   expect(@controller.new_game) === "WELCOME to HANGMAN. \n"
-    # end
-    #
-    # it "successfully grabs number of lives_remaining" do
-    #   expect(@controller.display_lives_remaining) == 7
-    # end
   end
 end
+
 
 
 
