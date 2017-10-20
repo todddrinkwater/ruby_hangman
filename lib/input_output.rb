@@ -31,10 +31,6 @@ class InputOutput
     puts "--> 😁 Letters remaining: #{letters_remaining}\n\n"
   end
 
-  def display_correct_guesses(correct_guesses_arr)
-    puts "Correct guesses made: #{correct_guesses_arr.join(' ')}\n"
-  end
-
   def display_incorrect_guesses(incorrect_guesses_arr)
     puts "Incorrect guesses made: #{incorrect_guesses_arr.join(' ')}\n"
   end
