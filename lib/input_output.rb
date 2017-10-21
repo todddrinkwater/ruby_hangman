@@ -4,18 +4,14 @@ class InputOutput
   end
 
   def get_guess_word
-    puts "Please enter your choosen word:"
+    puts "Please enter the word to guess:"
   end
 
   def enter_guess_word
     gets.chomp
   end
 
-  def admin_input_message
-    puts "Please enter your guess word:"
-  end
-
-  def user_input_message
+  def user_input_prompt
     puts "Please guess a letter:"
   end
 
