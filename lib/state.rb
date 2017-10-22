@@ -7,9 +7,9 @@ class State
     @word_display = []
   end
 
-  def player_progress(admin_input)
-    admin_input_arr = admin_input.chars
-    @word_display = admin_input_arr.map { |letter|  correct_guesses.include?(letter) ? letter : "_" }
+  def player_progress(guess_word)
+    guess_word_arr = guess_word.chars
+    @word_display = guess_word_arr.map { |letter|  correct_guesses.include?(letter) ? letter : "_" }
   end
 
   def lives_remaining
@@ -20,7 +20,7 @@ class State
     word_display.count("_")
   end
 
-  def update_guesses(correct, user_guess)
+  def update_guesses_made(correct, user_guess)
     if correct
       correct_guesses.push(user_guess)
     else

@@ -1,21 +1,21 @@
 class InputOutput
-  def show_welcome_message
+  def welcome_message
     puts "WELCOME to HANGMAN. \n"
   end
 
-  def get_guess_word
+  def guess_word_prompt
     puts "Please enter the word to guess:"
   end
 
-  def enter_guess_word
+  def get_guess_word
     gets.chomp
   end
 
-  def user_input_prompt
+  def player_guess_prompt
     puts "Please guess a letter:"
   end
 
-  def user_input
+  def get_player_guess
     gets.chomp
   end
 
@@ -43,32 +43,24 @@ class InputOutput
     puts "Unlucky!"
   end
 
-  def invalid_letter
-    puts "Please enter a letter that is VALID and not already guessed."
+  def invalid_guess_word_message
+    puts "Guess word must have at least one letter, no spaces, and no numbers."
+  end
+  
+  def already_guessed_message
+    "Letter already_guessed. Please guess again:"
   end
 
-  def more_letters
-    puts "Please enter at least one letter."
-  end
-
-  def only_letters
-    puts "Please enter only letter characters (incl. no spaces).\n"
-  end
-
-  def game_won
+  def game_won_message
     puts "You win! 😎"
   end
 
-  def game_lost
+  def game_lost_message
     puts "You lose. 💀 👻"
   end
 
-  def only_letters
-    puts "Please enter only letter characters (incl. no spaces)\n"
-  end
-
-  def only_single_letter
-    puts "Please enter ONLY a single letter."
+  def invalid_player_guess_message
+    puts "Invalid guess: Guess must contain a SINGLE letter with no spaces or numbers."
   end
 
   def line_break
