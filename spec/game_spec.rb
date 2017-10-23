@@ -3,7 +3,7 @@ RSpec.describe Game do
 
     subject(:game) { described_class.new }
 
-    describe '.new' do
+    describe '#initialize' do
       it "creates an an instance of the Game class" do
         expect(game).to be_an_instance_of(Game)
       end
@@ -20,6 +20,9 @@ RSpec.describe Game do
         expect(game.input_output).to be_an_instance_of(InputOutput)
       end
     end
+    
+    
+    
   end
 end
 

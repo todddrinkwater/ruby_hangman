@@ -7,7 +7,7 @@ class InputOutput
     puts "Please enter the word to guess:"
   end
 
-  def get_guess_word
+  def retrieve_guess_word
     gets.chomp
   end
 

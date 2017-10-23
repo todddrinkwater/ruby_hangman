@@ -1,5 +1,6 @@
 class State
   attr_accessor :letters_remaining, :correct_guesses, :incorrect_guesses, :word_display, :total_lives, :lives_remaining
+  
   def initialize
     @total_lives = 7
     @correct_guesses = []
@@ -27,5 +28,4 @@ class State
       incorrect_guesses.push(user_guess)
     end
   end
-
 end

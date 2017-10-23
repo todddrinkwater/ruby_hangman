@@ -9,31 +9,27 @@ class Game
 
   def initialize(input_output: InputOutput.new)
     @input_output = input_output
-    @state = State.new #TODO: Rethink this naming and what state should do.
+    @state = State.new
     @validate = Validate.new
   end
 
   def game_start
     input_output.welcome_message
     input_output.guess_word_prompt
-    guess_word = input_output.get_guess_word
-    
-    until validate.guess_word_accepted?(guess_word) do
-      input_output.invalid_guess_word_message
-      guess_word = input_output.get_guess_word
-    end
-    
-    guess_word.downcase!
+    guess_word = input_output.retrieve_guess_word
+    guess_word = check_guess_word_loop(guess_word)
     create_progress_display(guess_word, state.total_lives)
     take_single_turn(guess_word, state.total_lives) until game_over?(state)
     game_over_message
   end
-
+  
+  private
+  
   def take_single_turn(guess_word, lives_remaining)
     input_output.player_guess_prompt
     player_guess = input_output.get_player_guess
     
-    until validate.player_guess_accepted?(player_guess) && !letter_already_guessed?(player_guess) do
+    until guess_valid?(player_guess) do
       input_output.invalid_player_guess_message if !validate.player_guess_accepted?(player_guess)
       input_output.already_guessed_message if letter_already_guessed?(player_guess)
       player_guess = input_output.get_player_guess
@@ -42,7 +38,18 @@ class Game
     state.update_guesses_made(guess_correct?(guess_word, player_guess), player_guess)
     create_progress_display(guess_word, state.lives_remaining)
   end
+
+  def guess_valid?(player_guess)
+    validate.player_guess_accepted?(player_guess) && !letter_already_guessed?(player_guess)
+  end
   
+  def check_guess_word_loop(guess_word)
+    until validate.guess_word_accepted?(guess_word) do
+      input_output.invalid_guess_word_message
+      guess_word = input_output.get_guess_word
+    end
+    guess_word.downcase!
+  end
 
   def create_progress_display(guess_word, total_lives)
     input_output.show_player_progress(state.player_progress(guess_word))
@@ -74,6 +81,4 @@ class Game
   def guess_word_accepted?(guess_word)
     validate.input_type_ok?(guess_word) && validate.guess_word_length_ok?(guess_word)
   end
-
-
 end

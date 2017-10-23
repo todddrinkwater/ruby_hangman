@@ -8,6 +8,7 @@ class Validate
   end
   
   private
+  
   def guess_word_length_ok?(guess_word)
     return false unless guess_word
     if guess_word.length < 1 then false
@@ -26,5 +27,4 @@ class Validate
 
     type_check.length < 1 ? true : false
   end
-
 end
