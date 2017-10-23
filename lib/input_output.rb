@@ -48,7 +48,7 @@ class InputOutput
   end
   
   def already_guessed_message
-    "Letter already_guessed. Please guess again:"
+    puts "Letter already_guessed. Please guess again:"
   end
 
   def game_won_message

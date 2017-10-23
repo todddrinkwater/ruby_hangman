@@ -33,7 +33,7 @@ class Game
     input_output.player_guess_prompt
     player_guess = input_output.get_player_guess
     
-    until validate.player_guess_accepted?(player_guess) && letter_already_guessed?(player_guess) do
+    until validate.player_guess_accepted?(player_guess) && !letter_already_guessed?(player_guess) do
       input_output.invalid_player_guess_message if !validate.player_guess_accepted?(player_guess)
       input_output.already_guessed_message if letter_already_guessed?(player_guess)
       player_guess = input_output.get_player_guess
