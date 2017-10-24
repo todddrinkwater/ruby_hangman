@@ -20,12 +20,13 @@ class GameTwo
   end
 
   def guess_letter(guess)
-    guesses << guess
+    if WORD.include?(guess)
+      guesses << guess
+    else
+      guesses << guess
+      return :incorrect
+    end
   end
-  
-  # def guess_already_made?(guess)
-  #   WORD.chars.include?(guess)
-  # end
   
 end
 

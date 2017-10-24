@@ -65,7 +65,9 @@ RSpec.describe GameTwo do
         game.guess_letter("b")
         expect(game.guesses).to eq ["b"]
       end
-      it "informs the player the guess was incorrect"
+      it "informs the player the guess was incorrect" do
+        expect(game.guess_letter("b")).to eq :incorrect
+      end
       it "deducts a life"
     end
     
