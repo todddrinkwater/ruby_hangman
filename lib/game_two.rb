@@ -25,7 +25,7 @@ class GameTwo
   def guess_letter(guess)
     if guess.is_a?(Integer)
       :number_guess
-    elsif guess.empty?
+    elsif guess.strip.empty?
       :empty_guess
     elsif guess.length != 1
       :invalid_length_guess

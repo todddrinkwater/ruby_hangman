@@ -88,24 +88,34 @@ RSpec.describe GameTwo do
         expect{guess_letter}.not_to change{game.lives_remaining}
       end
     end
-    
+
     context "when the guess is not a letter" do
       context "the guess a number" do
         let(:guess) { 3 }
-        
+
         it "informs that guess is invalid" do
           expect(game.guess_letter(guess)).to eq :number_guess
         end
       end
-      
+
       context "the guess is empty" do
-        let(:guess) { "" }
-        
-        it "informs that guess is empty" do
-          expect(game.guess_letter(guess)).to eq :empty_guess
+        context "guess is empty string" do
+          let(:guess) { "" }
+
+          it "informs that guess is empty" do
+            expect(game.guess_letter(guess)).to eq :empty_guess
+          end
+        end
+
+        context "the guess contains only whitespace" do
+          let(:guess) { " " }
+
+          it "informs that guess is empty" do
+            expect(game.guess_letter(guess)).to eq :empty_guess
+          end
         end
       end
-      
+
       context "the guess is not one letter" do
         let(:guess) {"aa"}
         
