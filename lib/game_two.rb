@@ -1,7 +1,8 @@
 class GameTwo
   WORD = "powershop"
 
-  attr_reader :guesses, :lives_remaining
+  attr_reader :guesses
+  attr_accessor :lives_remaining
   
   def initialize
     @guesses = []
@@ -26,6 +27,8 @@ class GameTwo
       guesses << guess
     else
       guesses << guess
+      #TODO: Why does this have to be an instance var or using self??
+      self.lives_remaining -= 1
       :incorrect
     end
   end

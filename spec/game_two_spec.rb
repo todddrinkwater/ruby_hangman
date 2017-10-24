@@ -68,7 +68,10 @@ RSpec.describe GameTwo do
       it "informs the player the guess was incorrect" do
         expect(game.guess_letter("b")).to eq :incorrect
       end
-      it "deducts a life"
+      it "deducts a life" do
+        game.guess_letter("b")
+        expect(game.lives_remaining).to eq 6
+      end
     end
     
     context "when I guess a letter that has already been guessed" do
@@ -81,7 +84,11 @@ RSpec.describe GameTwo do
         game.guess_letter("p")
         expect(game.guess_letter("p")).to eq :letter_invalid
       end
-      it "does not remove a life"
+      it "does not remove a life" do
+        game.guess_letter("b")
+        game.guess_letter("b")
+        expect(game.lives_remaining).to eq 6
+      end
     end
   end
   
