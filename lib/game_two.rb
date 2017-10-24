@@ -20,7 +20,9 @@ class GameTwo
   end
 
   def guess_letter(guess)
-    if WORD.include?(guess)
+    if guesses.include?(guess)
+      return
+    elsif WORD.include?(guess)
       guesses << guess
     else
       guesses << guess

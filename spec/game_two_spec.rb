@@ -72,7 +72,11 @@ RSpec.describe GameTwo do
     end
     
     context "when I guess a letter that has already been guessed" do
-      it "is not added to the list of guesses"
+      it "is not added to the list of guesses" do
+        game.guess_letter("p")
+        game.guess_letter("p")
+        expect(game.guesses).to eq ["p"]
+      end
       it "informs the player the letter is invalid"
       it "does not remove a life"
     end
