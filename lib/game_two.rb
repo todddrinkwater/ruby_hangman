@@ -1,10 +1,11 @@
 class GameTwo
   WORD = "powershop"
 
-  attr_reader :guesses
+  attr_reader :guesses, :lives_remaining
   
   def initialize
     @guesses = []
+    @lives_remaining = 7
   end
   
   def clue

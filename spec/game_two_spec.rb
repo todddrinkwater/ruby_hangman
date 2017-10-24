@@ -54,7 +54,10 @@ RSpec.describe GameTwo do
         game.guess_letter("p")
         expect(game.clue).to eq "p _ _ _ _ _ _ _ p"
       end
-      it "does not remove a life"
+      it "does not remove a life" do
+        game.guess_letter("p")
+        expect(game.lives_remaining).to eq 7
+      end
     end
     
     context "when I guess a letter not in the word" do
