@@ -61,7 +61,10 @@ RSpec.describe GameTwo do
     end
     
     context "when I guess a letter not in the word" do
-      it "added to the list of guesses"
+      it "added to the list of guesses" do
+        game.guess_letter("b")
+        expect(game.guesses).to eq ["b"]
+      end
       it "informs the player the guess was incorrect"
       it "deducts a life"
     end
