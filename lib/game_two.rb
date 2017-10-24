@@ -1,3 +1,5 @@
+require 'byebug'
+
 class GameTwo
   WORD = "powershop"
 
@@ -11,17 +13,23 @@ class GameTwo
   
   def clue
     if guesses.empty?
-      guess_word = []
-      WORD.length.times { guess_word << "_" }
+      masked_word = []
+      WORD.length.times { masked_word << "_" }
     else
-      guess_word = WORD.chars
-      guess_word.map! { |letter| guesses.include?(letter) ? letter : "_" }
+      masked_word = WORD.chars
+      masked_word.map! { |letter| guesses.include?(letter) ? letter : "_" }
     end
-    guess_word.join(" ")
+    masked_word.join(" ")
   end
 
   def guess_letter(guess)
-    if guesses.include?(guess)
+    if guess.is_a?(Integer)
+      :number_guess
+    elsif guess.empty?
+      :empty_guess
+    elsif guess.length != 1
+      :invalid_length_guess
+    elsif guesses.include?(guess)
       :letter_invalid
     elsif WORD.include?(guess)
       guesses << guess
@@ -36,11 +44,11 @@ class GameTwo
 end
 
 # Until lives remaining is 0 or all letters guessed
-  # Display current state of the game
+  # Display current state of the game X
   # Get a guess from player
-  # If guess has already been made, tell the player
-  # Elsif guess is in word, then show letter in word
-  # Elsif guess is not in word, take a life
+  # If guess has already been made, tell the player X
+  # Elsif guess is in word, then show letter in word X
+  # Elsif guess is not in word, take a life X
 # Tell player if they've won or lost
 
 # Can only create a method if required by public interface or it is repeated for the third time.

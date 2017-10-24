@@ -30,7 +30,7 @@ RSpec.describe GameTwo do
       end
     end
     
-    context 'displays all letters when guessed' do
+    context 'when all letters when guessed' do
       it 'displays the clue with the guessed letters shown' do
         game.guess_letter("p")
         game.guess_letter("o")
@@ -50,10 +50,6 @@ RSpec.describe GameTwo do
         game.guess_letter("p")
         expect(game.guesses).to eq ["p"]
       end
-      it 'the letter appears in the clue' do
-        game.guess_letter("p")
-        expect(game.clue).to eq "p _ _ _ _ _ _ _ p"
-      end
       it "does not remove a life" do
         game.guess_letter("p")
         expect(game.lives_remaining).to eq 7
@@ -61,7 +57,7 @@ RSpec.describe GameTwo do
     end
     
     context "when I guess a letter not in the word" do
-      it "added to the list of guesses" do
+      it "is adds the letter to the list of guesses" do
         game.guess_letter("b")
         expect(game.guesses).to eq ["b"]
       end
@@ -69,30 +65,63 @@ RSpec.describe GameTwo do
         expect(game.guess_letter("b")).to eq :incorrect
       end
       it "deducts a life" do
-        game.guess_letter("b")
-        expect(game.lives_remaining).to eq 6
+        expect{game.guess_letter("b")}.to change{game.lives_remaining}.by -1
       end
     end
     
     context "when I guess a letter that has already been guessed" do
+      let(:guess) { "p" }
+      subject(:guess_letter) { game.guess_letter(guess) }
+      
+      before { game.guess_letter(guess) }
+      
       it "is not added to the list of guesses" do
-        game.guess_letter("p")
-        game.guess_letter("p")
-        expect(game.guesses).to eq ["p"]
+        guess_letter
+        expect(game.guesses).to eq [guess]
       end
+      
       it "informs the player the letter is invalid" do
-        game.guess_letter("p")
-        expect(game.guess_letter("p")).to eq :letter_invalid
+        expect(guess_letter).to eq :letter_invalid
       end
+      
       it "does not remove a life" do
-        game.guess_letter("b")
-        game.guess_letter("b")
-        expect(game.lives_remaining).to eq 6
+        expect{guess_letter}.not_to change{game.lives_remaining}
+      end
+    end
+    
+    context "when the guess is not a letter" do
+      context "the guess a number" do
+        let(:guess) { 3 }
+        
+        it "informs that guess is invalid" do
+          expect(game.guess_letter(guess)).to eq :number_guess
+        end
+      end
+      
+      context "the guess is empty" do
+        let(:guess) { "" }
+        
+        it "informs that guess is empty" do
+          expect(game.guess_letter(guess)).to eq :empty_guess
+        end
+      end
+      
+      context "the guess is not one letter" do
+        let(:guess) {"aa"}
+        
+        it "informs that guess is wrong length" do
+          expect(game.guess_letter(guess)).to eq :invalid_length_guess
+        end
       end
     end
   end
-  
-  # describe #guesses_already_made do
-
-  # end
 end
+
+
+# next set of tests
+#Validation
+  # Guess input length
+  # Guess input type
+  
+#Player won or lost?
+  #
