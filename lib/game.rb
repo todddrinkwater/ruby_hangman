@@ -15,16 +15,23 @@ class Game
 
   def game_start
     input_output.welcome_message
+    
+    #TODO: Extract into a method. Collapse first two lines into retrieve_guess_word method.
     input_output.guess_word_prompt
     guess_word = input_output.retrieve_guess_word
     guess_word = check_guess_word_loop(guess_word)
+    
+    #TODO: Move create progress display to top of take_single_turn and remove here.
     create_progress_display(guess_word, state.total_lives)
+    
     take_single_turn(guess_word, state.total_lives) until game_over?(state)
+    
     game_over_message
   end
   
   private
   
+  #TODO: Rename: play_a_turn
   def take_single_turn(guess_word, lives_remaining)
     input_output.player_guess_prompt
     player_guess = input_output.get_player_guess
@@ -43,6 +50,7 @@ class Game
     validate.player_guess_accepted?(player_guess) && !letter_already_guessed?(player_guess)
   end
   
+  #TODO: Rename: Remove programming constructs - validate_guess_word more appropriate.
   def check_guess_word_loop(guess_word)
     until validate.guess_word_accepted?(guess_word) do
       input_output.invalid_guess_word_message
@@ -82,3 +90,11 @@ class Game
     validate.input_type_ok?(guess_word) && validate.guess_word_length_ok?(guess_word)
   end
 end
+
+# Until lives remaining is 0 or all letters guessed
+  # Display current state of the game
+  # Get a guess from player
+  # If guess has already been made, tell the player
+  # Elsif guess is in word, then show letter in word
+  # Elsif guess is not in word, take a life
+# Tell player if they've won or lost

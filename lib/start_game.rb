@@ -1,6 +1,4 @@
-require "./game.rb"
+require_relative "./game_two.rb"
 
-game_loop = Game.new
-game_loop.game_start
-
-#REPL
+game = Game_Two.new
+game
