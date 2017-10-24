@@ -21,12 +21,12 @@ class GameTwo
 
   def guess_letter(guess)
     if guesses.include?(guess)
-      return
+      :letter_invalid
     elsif WORD.include?(guess)
       guesses << guess
     else
       guesses << guess
-      return :incorrect
+      :incorrect
     end
   end
   

@@ -77,7 +77,10 @@ RSpec.describe GameTwo do
         game.guess_letter("p")
         expect(game.guesses).to eq ["p"]
       end
-      it "informs the player the letter is invalid"
+      it "informs the player the letter is invalid" do
+        game.guess_letter("p")
+        expect(game.guess_letter("p")).to eq :letter_invalid
+      end
       it "does not remove a life"
     end
   end
