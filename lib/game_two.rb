@@ -1,29 +1,30 @@
 class GameTwo
   WORD = "powershop"
 
-  attr_reader :guesses, :clue
+  attr_reader :guesses
   
   def initialize
     @guesses = []
-    @clue = []
   end
   
   def clue
     if guesses.empty?
-       guess_word = []
-       WORD.length.times { guess_word << "_" }
-       guess_word.join(" ")
+      guess_word = []
+      WORD.length.times { guess_word << "_" }
     else
       guess_word = WORD.chars
       guess_word.map! { |letter| guesses.include?(letter) ? letter : "_" }
-      guess_word.join(" ")
     end
+    guess_word.join(" ")
   end
 
   def guess_letter(guess)
     guesses << guess
-    clue
   end
+  
+  # def guess_already_made?(guess)
+  #   WORD.chars.include?(guess)
+  # end
   
 end
 
@@ -35,6 +36,4 @@ end
   # Elsif guess is not in word, take a life
 # Tell player if they've won or lost
 
-
-#Map through each letter of POWERSHOP
-#If guess matches a letter from the word array then push it to the clue var, otherwise push "_"
+# Can only create a method if required by public interface or it is repeated for the third time.
