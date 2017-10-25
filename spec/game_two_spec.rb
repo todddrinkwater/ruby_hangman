@@ -80,8 +80,8 @@ RSpec.describe GameTwo do
         expect(game.guesses).to eq [guess]
       end
       
-      it "informs the player the letter is invalid" do
-        expect(guess_letter).to eq :letter_invalid
+      it "informs the caller the guess has already been used" do
+        expect(guess_letter).to eq :duplicate_guess
       end
       
       it "does not remove a life" do
@@ -93,8 +93,15 @@ RSpec.describe GameTwo do
       context "the guess a number" do
         let(:guess) { 3 }
 
-        it "informs that guess is invalid" do
+        it "informs that guess is number" do
           expect(game.guess_letter(guess)).to eq :number_guess
+        end
+      end
+      
+      context "when the guess contains a special character" do
+        it "informs that guess is a special character" do
+          expect(game.guess_letter("_")).to eq :special_character
+          expect(game.guess_letter("*")).to eq :special_character
         end
       end
 

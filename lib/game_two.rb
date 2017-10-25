@@ -3,8 +3,7 @@ require 'byebug'
 class GameTwo
   WORD = "powershop"
 
-  attr_reader :guesses
-  attr_accessor :lives_remaining
+  attr_reader :guesses, :lives_remaining
   
   def initialize
     @guesses = []
@@ -23,21 +22,18 @@ class GameTwo
   end
 
   def guess_letter(guess)
-    if guess.is_a?(Integer)
-      :number_guess
-    elsif guess.strip.empty?
-      :empty_guess
-    elsif guess.length != 1
-      :invalid_length_guess
-    elsif guesses.include?(guess)
-      :letter_invalid
-    elsif WORD.include?(guess)
-      guesses << guess
-    else
-      guesses << guess
-      #TODO: Why does this have to be an instance var or using self??
-      self.lives_remaining -= 1
-      :incorrect
+    guess_is_valid = true
+    
+    if guess_is_valid
+      if guesses.include?(guess)
+        :duplicate_guess
+      elsif WORD.include?(guess)
+        guesses << guess
+      else
+        guesses << guess
+        @lives_remaining -= 1
+        :incorrect
+      end
     end
   end
   
