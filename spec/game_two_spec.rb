@@ -10,31 +10,30 @@ RSpec.describe GameTwo do
 
   describe '#clue' do
     context 'when no letters have been guessed' do
-      it 'displays the clue' do
-        expect(game.clue).to eq "_ _ _ _ _ _ _ _ _"
+      it 'returns array of nil values' do
+        expect(game.clue).to eq [nil, nil, nil, nil, nil, nil, nil, nil, nil]
       end
     end
 
     context 'when one letter has been guessed' do
-      it 'displays the clue with the guessed letters shown' do
-        game.guess_letter("o")
-        expect(game.clue).to eq "_ o _ _ _ _ _ o _"
+      it 'creates array that includes the correct guessed letters in correct order' do
+        game.guesses = ["o"]
+        expect(game.clue).to eq [nil, "o", nil, nil, nil, nil, nil, "o", nil]
       end
     end
 
     context 'when two letters have been guessed' do
-      it 'displays the clue with the guessed letters shown' do
-        game.guess_letter("o")
-        game.guess_letter("w")
-        expect(game.clue).to eq "_ o w _ _ _ _ o _"
+      it 'creates array with the guessed letters shown in correct order' do
+        game.guesses = %w[o w]
+        expect(game.clue).to eq [nil, "o", "w", nil, nil, nil, nil, "o", nil]
       end
     end
 
     context 'when all letters when guessed' do
       before { game.guesses = GameTwo::WORD.chars.uniq }
       
-      it 'displays the clue with the guessed letters shown' do
-        expect(game.clue).to eq "p o w e r s h o p"
+      it 'creates array cosisting of all letters' do
+        expect(game.clue).to eq %w[p o w e r s h o p]
       end
     end
   end

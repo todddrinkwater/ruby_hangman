@@ -13,8 +13,8 @@ class GameTwo
 
   def clue
     masked_word = WORD.chars
-    masked_word.map! { |letter| guesses.include?(letter) ? letter : "_" }
-    masked_word.join(" ")
+    masked_word.map! { |letter| guesses.include?(letter) ? letter : nil }
+    # masked_word.join(" ")
   end
 
   def guess_letter(guess)
