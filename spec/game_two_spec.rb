@@ -21,7 +21,7 @@ RSpec.describe GameTwo do
         expect(game.clue).to eq "_ o _ _ _ _ _ o _"
       end
     end
-    
+
     context 'when two letters have been guessed' do
       it 'displays the clue with the guessed letters shown' do
         game.guess_letter("o")
@@ -29,7 +29,7 @@ RSpec.describe GameTwo do
         expect(game.clue).to eq "_ o w _ _ _ _ o _"
       end
     end
-    
+
     context 'when all letters when guessed' do
       before { game.guesses = GameTwo::WORD.chars.uniq }
       
@@ -38,7 +38,7 @@ RSpec.describe GameTwo do
       end
     end
   end
-  
+
   describe '#guess_letter' do
     context 'when I guess a letter in the word' do
       it "added to the list of guesses" do
@@ -50,35 +50,38 @@ RSpec.describe GameTwo do
         expect(game.lives_remaining).to eq 7
       end
     end
-    
+
     context "when I guess a letter not in the word" do
+      
       it "is adds the letter to the list of guesses" do
         game.guess_letter("b")
         expect(game.guesses).to eq ["b"]
       end
+
       it "informs the player the guess was incorrect" do
         expect(game.guess_letter("b")).to eq :incorrect_guess
       end
+
       it "deducts a life" do
         expect{game.guess_letter("b")}.to change{game.lives_remaining}.by -1
       end
     end
-    
+
     context "when I guess a letter that has already been guessed" do
       let(:guess) { "p" }
       subject(:guess_letter) { game.guess_letter(guess) }
-      
+
       before { game.guess_letter(guess) }
-      
+
       it "is not added to the list of guesses" do
         guess_letter
         expect(game.guesses).to eq [guess]
       end
-      
+
       it "informs the caller the guess has already been used" do
         expect(guess_letter).to eq :duplicate_guess
       end
-      
+
       it "does not remove a life" do
         expect{guess_letter}.not_to change{game.lives_remaining}
       end
@@ -92,7 +95,7 @@ RSpec.describe GameTwo do
           expect(game.guess_letter(guess)).to eq :invalid_guess
         end
       end
-      
+
       context "when the guess contains a special character" do
         it "informs that guess is a special character" do
           expect(game.guess_letter("_")).to eq :invalid_guess
@@ -120,61 +123,61 @@ RSpec.describe GameTwo do
 
       context "the guess is not one letter" do
         let(:guess) {"aa"}
-        
+
         it "informs that guess is invalid" do
           expect(game.guess_letter(guess)).to eq :invalid_guess
         end
       end
     end
   end
-  
-  describe "#over?" do
+
+  describe "#game_over?" do
     context "no lives remaining" do
       before { game.lives_remaining = 0 }
-      
+
         it "returns true" do
-          expect(game.over?).to eq true
+          expect(game.game_over?).to eq true
         end
       end
-      
+
     context "all letters have been correctly guessed" do
       before { game.guesses = GameTwo::WORD.chars.uniq }
-      
+
       it "returns true" do
-        expect(game.over?).to eq true
+        expect(game.game_over?).to eq true
       end
     end
   end
-  
+
   describe "#won?" do
     context "letters have all been guessed" do
       before { game.guesses = GameTwo::WORD.chars.uniq }
-      
+
       it "returns true" do
         expect(game.won?).to eq true
       end
     end
-    
+
     context "letters have not all been guessed" do
       it "returns false" do
         expect(game.won?).to eq false
       end
     end
   end
-  
+
   describe "#lost?" do
     context "lives remaining is less than zero" do
       before { game.lives_remaining = 0 }
-      
+
       it "returns true" do
         expect(game.lost?).to eq true
       end
     end
-    
+
     context "lives remaining is greater than zero" do
       before { game.lives_remaining = 1 }
-      
-      it "returns true" do
+
+      it "returns false" do
         expect(game.lost?).to eq false
       end
     end
