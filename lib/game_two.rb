@@ -3,8 +3,9 @@ require 'byebug'
 class GameTwo
   WORD = "powershop"
 
-  attr_reader :guesses, :lives_remaining
-  
+
+  attr_reader :guesses
+  attr_accessor :lives_remaining
   def initialize
     @guesses = []
     @lives_remaining = 7
@@ -22,7 +23,6 @@ class GameTwo
   end
 
   def guess_letter(guess)
-    guess_is_valid = true
     guess = guess.to_s
     guess_is_valid = guess.length == 1 && guess.scan(/[^a-zA-Z]/).empty?
     
@@ -43,6 +43,11 @@ class GameTwo
     end
   end
   
+  def over?
+    no_letters_remaining = clue.scan(/[^a-zA-Z ]/).empty?
+    @lives_remaining < 1 || no_letters_remaining
+  end
+  
 end
 
 # Until lives remaining is 0 or all letters guessed
@@ -54,3 +59,11 @@ end
 # Tell player if they've won or lost
 
 # Can only create a method if required by public interface or it is repeated for the third time.
+
+#Checking the status of the game
+# Check if game is over?
+  # Game over - Happens if someone has guessed all letters or runs out of lives.
+    # Game won if user has guessed all letters, lives greater than 0
+    #Game lost if user has not guessed all letters and lives less than 1
+  # Game continues when... User still has lives and letters have not all been guessed.
+  

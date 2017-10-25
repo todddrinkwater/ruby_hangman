@@ -132,13 +132,28 @@ RSpec.describe GameTwo do
       end
     end
   end
-end
-
-
-# next set of tests
-#Validation
-  # Guess input length
-  # Guess input type
   
-#Player won or lost?
-  #
+  describe "#over?" do
+    context "no lives remaining" do
+      before { game.lives_remaining = 0 }
+      
+        it "returns true" do
+          expect(game.over?).to eq true
+        end
+      end
+      
+    context "all letters have been correctly guessed" do
+      it "returns true" do
+        game.guess_letter("p")
+        game.guess_letter("o")
+        game.guess_letter("w")
+        game.guess_letter("e")
+        game.guess_letter("r")
+        game.guess_letter("s")
+        game.guess_letter("h")
+        
+        expect(game.over?).to eq true
+      end
+    end
+  end
+end
