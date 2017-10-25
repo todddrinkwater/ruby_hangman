@@ -62,7 +62,7 @@ RSpec.describe GameTwo do
         expect(game.guesses).to eq ["b"]
       end
       it "informs the player the guess was incorrect" do
-        expect(game.guess_letter("b")).to eq :incorrect
+        expect(game.guess_letter("b")).to eq :incorrect_guess
       end
       it "deducts a life" do
         expect{game.guess_letter("b")}.to change{game.lives_remaining}.by -1
@@ -93,15 +93,15 @@ RSpec.describe GameTwo do
       context "the guess a number" do
         let(:guess) { 3 }
 
-        it "informs that guess is number" do
-          expect(game.guess_letter(guess)).to eq :number_guess
+        it "informs that guess is invalid" do
+          expect(game.guess_letter(guess)).to eq :invalid_guess
         end
       end
       
       context "when the guess contains a special character" do
         it "informs that guess is a special character" do
-          expect(game.guess_letter("_")).to eq :special_character
-          expect(game.guess_letter("*")).to eq :special_character
+          expect(game.guess_letter("_")).to eq :invalid_guess
+          expect(game.guess_letter("*")).to eq :invalid_guess
         end
       end
 
@@ -109,16 +109,16 @@ RSpec.describe GameTwo do
         context "guess is empty string" do
           let(:guess) { "" }
 
-          it "informs that guess is empty" do
-            expect(game.guess_letter(guess)).to eq :empty_guess
+          it "informs that guess is invalid" do
+            expect(game.guess_letter(guess)).to eq :invalid_guess
           end
         end
 
         context "the guess contains only whitespace" do
           let(:guess) { " " }
 
-          it "informs that guess is empty" do
-            expect(game.guess_letter(guess)).to eq :empty_guess
+          it "informs that guess is invalid" do
+            expect(game.guess_letter(guess)).to eq :invalid_guess
           end
         end
       end
@@ -126,8 +126,8 @@ RSpec.describe GameTwo do
       context "the guess is not one letter" do
         let(:guess) {"aa"}
         
-        it "informs that guess is wrong length" do
-          expect(game.guess_letter(guess)).to eq :invalid_length_guess
+        it "informs that guess is invalid" do
+          expect(game.guess_letter(guess)).to eq :invalid_guess
         end
       end
     end

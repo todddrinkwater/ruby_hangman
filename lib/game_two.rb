@@ -23,6 +23,12 @@ class GameTwo
 
   def guess_letter(guess)
     guess_is_valid = true
+    guess = guess.to_s
+    guess_is_valid = guess.length == 1 && guess.scan(/[^a-zA-Z]/).empty?
+    
+    if !guess_is_valid
+      return :invalid_guess
+    end
     
     if guess_is_valid
       if guesses.include?(guess)
@@ -32,7 +38,7 @@ class GameTwo
       else
         guesses << guess
         @lives_remaining -= 1
-        :incorrect
+        :incorrect_guess
       end
     end
   end
