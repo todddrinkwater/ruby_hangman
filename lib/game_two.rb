@@ -34,11 +34,12 @@ class GameTwo
   end
 
   def game_over?
-    won? || lost?
+    lost? || won?
   end
 
   def won?
-    clue.all?
+    players_guesses = clue.join
+    (players_guesses == WORD) && (@lives_remaining > 1)
   end
 
   def lost?
@@ -61,5 +62,7 @@ end
   # Game over - Happens if someone has guessed all letters or runs out of lives. X
     # Game won if user has guessed all letters, lives greater than 0 X
     # Game lost if user has not guessed all letters and lives less than 1 X
-  # Game continues when... User still has lives and letters have not all been guessed. 
+  # Game continues when... User still has lives and letters have not all been guessed.
   
+# Can a player still make a guess if lost?
+# Has a player won if they have guessed the word but their lives are at zero.

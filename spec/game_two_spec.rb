@@ -171,6 +171,10 @@ RSpec.describe GameTwo do
       it "returns true" do
         expect(game.lost?).to eq true
       end
+      
+      it "player can no longer make guesses" do
+        
+      end
     end
 
     context "lives remaining is greater than zero" do
@@ -179,6 +183,7 @@ RSpec.describe GameTwo do
       it "returns false" do
         expect(game.lost?).to eq false
       end
+      
     end
   end
 end
