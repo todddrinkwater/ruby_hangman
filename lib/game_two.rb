@@ -10,7 +10,6 @@ class GameTwo
     @lives_remaining = 7
   end
 
-
   def clue
     masked_word = WORD.chars
     masked_word.map! { |letter| guesses.include?(letter) ? letter : nil }
@@ -39,7 +38,7 @@ class GameTwo
   end
 
   def won?
-    clue.scan(/[^a-zA-Z ]/).empty?
+    clue.all?
   end
 
   def lost?
