@@ -3,14 +3,17 @@ require 'byebug'
 class GameTwo
   WORD = "powershop"
 
-
-  attr_reader :guesses
-  attr_accessor :lives_remaining
+  attr_accessor :lives_remaining, :guesses
   def initialize
     @guesses = []
     @lives_remaining = 7
   end
-  
+
+  # def play_turn
+  #   clue
+  #   guess_letter
+  # end
+
   def clue
     if guesses.empty?
       masked_word = []
@@ -29,7 +32,7 @@ class GameTwo
     if !guess_is_valid
       return :invalid_guess
     end
-    
+
     if guess_is_valid
       if guesses.include?(guess)
         :duplicate_guess
@@ -42,12 +45,18 @@ class GameTwo
       end
     end
   end
-  
+
   def over?
-    no_letters_remaining = clue.scan(/[^a-zA-Z ]/).empty?
-    @lives_remaining < 1 || no_letters_remaining
+    won? || lost?
   end
-  
+
+  def won?
+    clue.scan(/[^a-zA-Z ]/).empty?
+  end
+
+  def lost?
+    @lives_remaining < 1
+  end
 end
 
 # Until lives remaining is 0 or all letters guessed
@@ -64,6 +73,6 @@ end
 # Check if game is over?
   # Game over - Happens if someone has guessed all letters or runs out of lives.
     # Game won if user has guessed all letters, lives greater than 0
-    #Game lost if user has not guessed all letters and lives less than 1
+    # Game lost if user has not guessed all letters and lives less than 1
   # Game continues when... User still has lives and letters have not all been guessed.
   

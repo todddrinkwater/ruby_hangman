@@ -31,14 +31,9 @@ RSpec.describe GameTwo do
     end
     
     context 'when all letters when guessed' do
+      before { game.guesses = GameTwo::WORD.chars.uniq }
+      
       it 'displays the clue with the guessed letters shown' do
-        game.guess_letter("p")
-        game.guess_letter("o")
-        game.guess_letter("w")
-        game.guess_letter("e")
-        game.guess_letter("r")
-        game.guess_letter("s")
-        game.guess_letter("h")
         expect(game.clue).to eq "p o w e r s h o p"
       end
     end
@@ -143,16 +138,44 @@ RSpec.describe GameTwo do
       end
       
     context "all letters have been correctly guessed" do
+      before { game.guesses = GameTwo::WORD.chars.uniq }
+      
       it "returns true" do
-        game.guess_letter("p")
-        game.guess_letter("o")
-        game.guess_letter("w")
-        game.guess_letter("e")
-        game.guess_letter("r")
-        game.guess_letter("s")
-        game.guess_letter("h")
-        
         expect(game.over?).to eq true
+      end
+    end
+  end
+  
+  describe "#won?" do
+    context "letters have all been guessed" do
+      before { game.guesses = GameTwo::WORD.chars.uniq }
+      
+      it "returns true" do
+        expect(game.won?).to eq true
+      end
+    end
+    
+    context "letters have not all been guessed" do
+      it "returns false" do
+        expect(game.won?).to eq false
+      end
+    end
+  end
+  
+  describe "#lost?" do
+    context "lives remaining is less than zero" do
+      before { game.lives_remaining = 0 }
+      
+      it "returns true" do
+        expect(game.lost?).to eq true
+      end
+    end
+    
+    context "lives remaining is greater than zero" do
+      before { game.lives_remaining = 1 }
+      
+      it "returns true" do
+        expect(game.lost?).to eq false
       end
     end
   end
