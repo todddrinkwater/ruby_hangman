@@ -2,8 +2,10 @@ require "game_two"
 require "byebug"
 
 RSpec.describe GameTwo do
-  subject(:game) { described_class.new }
-  
+  let(:initial_lives) { 7 }
+
+  subject(:game) { described_class.new(lives_remaining: initial_lives) }
+
   it "creates a new game" do
     expect(game).not_to be_nil
   end
@@ -132,12 +134,12 @@ RSpec.describe GameTwo do
 
   describe "#game_over?" do
     context "no lives remaining" do
-      before { game.lives_remaining = 0 }
+      let(:initial_lives) { 0 }
 
-        it "returns true" do
-          expect(game.game_over?).to eq true
-        end
+      it "returns true" do
+        expect(game.game_over?).to eq true
       end
+    end
 
     context "all letters have been correctly guessed" do
       before { game.guesses = GameTwo::WORD.chars.uniq }
@@ -165,25 +167,28 @@ RSpec.describe GameTwo do
   end
 
   describe "#lost?" do
-    context "lives remaining is less than zero" do
-      before { game.lives_remaining = 0 }
+    context "lives remaining is zero" do
+      let(:initial_lives) { 0 }
 
       it "returns true" do
         expect(game.lost?).to eq true
       end
-      
-      it "player can no longer make guesses" do
-        
+    end
+    
+    context "lives remaining less than zero" do
+      let(:initial_lives) { -1 }
+
+      it "returns true" do
+        expect(game.lost?).to eq true
       end
     end
 
     context "lives remaining is greater than zero" do
-      before { game.lives_remaining = 1 }
+      let(:initial_lives) { 1 }
 
       it "returns false" do
         expect(game.lost?).to eq false
       end
-      
     end
   end
 end

@@ -3,17 +3,17 @@ require 'byebug'
 class GameTwo
   WORD = "powershop"
 
-  attr_accessor :lives_remaining, :guesses
-  
-  def initialize
+  attr_accessor :guesses
+  attr_reader :lives_remaining
+
+  def initialize(lives_remaining:)
     @guesses = []
-    @lives_remaining = 7
+    @lives_remaining = lives_remaining
   end
 
   def clue
     masked_word = WORD.chars
     masked_word.map! { |letter| guesses.include?(letter) ? letter : nil }
-    # masked_word.join(" ")
   end
 
   def guess_letter(guess)
@@ -38,8 +38,8 @@ class GameTwo
   end
 
   def won?
-    players_guesses = clue.join
-    (players_guesses == WORD) && (@lives_remaining > 1)
+    guessed_word = clue.join
+    (guessed_word == WORD) && (@lives_remaining > 1)
   end
 
   def lost?
