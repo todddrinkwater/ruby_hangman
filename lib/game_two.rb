@@ -1,18 +1,21 @@
 require 'byebug'
 
 class GameTwo
-  WORD = "powershop"
-
   attr_accessor :guesses
   attr_reader :lives_remaining
 
-  def initialize(lives_remaining:)
+  def initialize(lives_remaining:, guess_word:)
     @guesses = []
     @lives_remaining = lives_remaining
+    @word = guess_word
   end
+  
+  # When a game begins:
+    # A clue is displayed to the console.
+    # The amount of lives remaining for the player is displayed.
 
   def clue
-    masked_word = WORD.chars
+    masked_word = @word.chars
     masked_word.map! { |letter| guesses.include?(letter) ? letter : nil }
   end
 
@@ -24,7 +27,7 @@ class GameTwo
 
     if guesses.include?(guess)
       :duplicate_guess
-    elsif WORD.include?(guess)
+    elsif @word.include?(guess)
       guesses << guess
     else
       guesses << guess
@@ -39,7 +42,7 @@ class GameTwo
 
   def won?
     guessed_word = clue.join
-    (guessed_word == WORD) && (@lives_remaining > 1)
+    (guessed_word == @word) && (@lives_remaining > 1) #neccessary??
   end
 
   def lost?

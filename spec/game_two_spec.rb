@@ -4,16 +4,20 @@ require "byebug"
 RSpec.describe GameTwo do
   let(:initial_lives) { 7 }
 
-  subject(:game) { described_class.new(lives_remaining: initial_lives) }
+  subject(:game) { described_class.new(lives_remaining: initial_lives, guess_word: "powershop") }
 
   it "creates a new game" do
     expect(game).not_to be_nil
+  end
+  
+  describe '#start_game' do
+    it "displays a masked version of the guess word on the console"
   end
 
   describe '#clue' do
     context 'when no letters have been guessed' do
       it 'returns array of nil values' do
-        expect(game.clue).to eq [nil, nil, nil, nil, nil, nil, nil, nil, nil]
+        expect(game.clue).to eq [nil] * 9
       end
     end
 
@@ -31,9 +35,10 @@ RSpec.describe GameTwo do
       end
     end
 
-    context 'when all letters when guessed' do
-      before { game.guesses = GameTwo::WORD.chars.uniq }
-      
+    context 'when all the letters are guessed' do
+      let(:word) { "powershop" }
+      before { game.guesses = word.chars.uniq }
+
       it 'creates array cosisting of all letters' do
         expect(game.clue).to eq %w[p o w e r s h o p]
       end
@@ -142,7 +147,7 @@ RSpec.describe GameTwo do
     end
 
     context "all letters have been correctly guessed" do
-      before { game.guesses = GameTwo::WORD.chars.uniq }
+      before { game.guesses = %w[p o w e r s h o p] }
 
       it "returns true" do
         expect(game.game_over?).to eq true
@@ -152,7 +157,7 @@ RSpec.describe GameTwo do
 
   describe "#won?" do
     context "letters have all been guessed" do
-      before { game.guesses = GameTwo::WORD.chars.uniq }
+      before { game.guesses = %w[p o w e r s h o p] }
 
       it "returns true" do
         expect(game.won?).to eq true
@@ -164,6 +169,7 @@ RSpec.describe GameTwo do
         expect(game.won?).to eq false
       end
     end
+
   end
 
   describe "#lost?" do
