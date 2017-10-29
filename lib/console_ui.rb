@@ -1,21 +1,12 @@
 class ConsoleUI
   
-  attr_reader :game
-
-  def initialize
-    @game = GameTwo.new(lives_remaining: 7)
+  def display_clue(clue)
+    masked_word = clue.map { |element| element = "_" }
+    "Clue: #{masked_word.join(" ")} \n"
   end
   
-  def start_game
-    puts "Clue: #{game.clue}"
-    puts "Lives remaining: #{game.lives_remaining}"
+  def display_lives_remaining(lives_remaining)
+    "Lives remaining: #{lives_remaining} \n"
   end
   
-  def play_turn
-    puts "Take a guess:"
-    guess = gets.chomp
-    puts "Clue: #{game.clue}"
-    puts "Lives remaining: #{game.lives_remaining}"
-  
-  end
 end

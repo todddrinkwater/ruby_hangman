@@ -1,4 +1,4 @@
 require_relative "./game_two.rb"
 
-game = Game_Two.new(lives_remaining: 7, word: "powershop")
-game
+game = GameTwo.new(lives_remaining: 7, guess_word: "powershop")
+game.start_game

@@ -1,18 +1,27 @@
 require 'byebug'
+require_relative './console_ui'
 
 class GameTwo
   attr_accessor :guesses
-  attr_reader :lives_remaining
+  attr_reader :lives_remaining, :console_ui
 
   def initialize(lives_remaining:, guess_word:)
     @guesses = []
     @lives_remaining = lives_remaining
     @word = guess_word
+    @console_ui = ConsoleUI.new
   end
   
   # When a game begins:
-    # A clue is displayed to the console.
-    # The amount of lives remaining for the player is displayed.
+    # Clue is converted into a display appropriate format e.g. string
+    # A clue is displayed to the console, consisting of symbols representing the correct number of spaces.
+    
+    # The amount of lives remaining is displayed to the console.
+      
+  def start_game
+    puts console_ui.display_clue(clue)
+    puts console_ui.display_lives_remaining(lives_remaining)
+  end
 
   def clue
     masked_word = @word.chars

@@ -11,7 +11,9 @@ RSpec.describe GameTwo do
   end
   
   describe '#start_game' do
-    it "displays a masked version of the guess word on the console"
+    it "returns the masked word and lives remaining to the console" do
+      
+    end
   end
 
   describe '#clue' do
