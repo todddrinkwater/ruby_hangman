@@ -9,4 +9,20 @@ class ConsoleUI
     "Lives remaining: #{lives_remaining} \n"
   end
   
+  def guess_result(guess)
+    case guess
+    when :correct_guess
+      "Correct guess \n"
+    when :incorrect_guess
+      "Incorrect guess \n"
+    when :duplicate_guess
+      "Letter already guessed \n"
+    when :invalid_guess
+      "Type of guess invalid. \n A guess must only contain a single letter value."
+    end
+  end
+  
+  def player_guess
+    gets.chomp
+  end
 end

@@ -16,6 +16,14 @@ class GameTwo
   def start_game
     puts console_ui.display_clue(clue)
     puts console_ui.display_lives_remaining(lives_remaining)
+    puts "\n"
+  end
+  
+  def play_turn #(guess) ??
+    puts console_ui.display_clue(clue)
+    puts console_ui.display_lives_remaining(lives_remaining)
+    guessed_letter = console_ui.player_guess
+    puts console_ui.guess_result(guess_letter(guessed_letter))
   end
 
   def clue
@@ -33,6 +41,7 @@ class GameTwo
       :duplicate_guess
     elsif @word.include?(guess)
       guesses << guess
+      :correct_guess
     else
       guesses << guess
       @lives_remaining -= 1
