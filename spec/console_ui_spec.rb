@@ -19,6 +19,13 @@ RSpec.describe ConsoleUI do
         expect(console_ui.display_clue(clue)).to eq "Clue: D _ G \n"
       end
     end
+    
+    context "when all letters have been correctly guessed" do
+      let(:clue) { ["D", "O", "G"] }
+      it "should reveal all letters" do
+        expect(console_ui.display_clue(clue)).to eq "Clue: D O G \n"
+      end
+    end
   end
 
   describe '#display_lives_remaining' do
