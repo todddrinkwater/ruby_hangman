@@ -1,7 +1,7 @@
 class ConsoleUI
   
   def display_clue(clue)
-    masked_word = clue.map { |element| element = "_" }
+    masked_word = clue.map { |element| element == nil ? element = "_" : element }
     "Clue: #{masked_word.join(" ")} \n"
   end
   

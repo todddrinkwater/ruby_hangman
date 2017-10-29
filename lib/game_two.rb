@@ -12,11 +12,6 @@ class GameTwo
     @console_ui = ConsoleUI.new
   end
   
-  # When a game begins:
-    # Clue is converted into a display appropriate format e.g. string
-    # A clue is displayed to the console, consisting of symbols representing the correct number of spaces.
-    
-    # The amount of lives remaining is displayed to the console.
       
   def start_game
     puts console_ui.display_clue(clue)

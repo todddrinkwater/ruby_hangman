@@ -2,17 +2,25 @@ require 'console_ui'
 
 RSpec.describe ConsoleUI do
   subject (:console_ui) { described_class.new }
-  let(:clue) { %w[D O G] }
-  
+
   describe '#display_clue' do
-    
     context 'when no letters have been guessed' do
+      let(:clue) { [nil, nil, nil] }
+
       it 'should return a clue of the word with letters hidden' do
         expect(console_ui.display_clue(clue)).to eq "Clue: _ _ _ \n"
       end
     end
+    
+    context "when some, but not all letters are guessed" do
+      let(:clue) { ["D", nil, "G"] }
+
+      it 'should return clue showing only letters guessed' do
+        expect(console_ui.display_clue(clue)).to eq "Clue: D _ G \n"
+      end
+    end
   end
-  
+
   describe '#display_lives_remaining' do
     context 'when game starts' do
       let(:lives_remaining) { 7 }
@@ -21,5 +29,5 @@ RSpec.describe ConsoleUI do
       end
     end
   end
-  
+
 end
