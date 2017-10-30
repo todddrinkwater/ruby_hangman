@@ -11,7 +11,7 @@ RSpec.describe ConsoleUI do
         expect(console_ui.display_clue(clue)).to eq "Clue: _ _ _ \n"
       end
     end
-    
+
     context "when some, but not all letters are guessed" do
       let(:clue) { ["D", nil, "G"] }
 
@@ -19,7 +19,7 @@ RSpec.describe ConsoleUI do
         expect(console_ui.display_clue(clue)).to eq "Clue: D _ G \n"
       end
     end
-    
+
     context "when all letters have been correctly guessed" do
       let(:clue) { ["D", "O", "G"] }
 
@@ -38,13 +38,13 @@ RSpec.describe ConsoleUI do
       end
     end
   end
-  
-  describe '#guess_result' do
+
+  describe '#display_guess_result' do
     context 'guess is correct' do
       let(:guess) { :correct_guess }
 
       it "informs user guess is correct" do
-        expect(console_ui.guess_result(guess)).to eq "Correct guess \n"
+        expect(console_ui.display_guess_result(guess)).to eq "Correct guess \n"
       end
     end
 
@@ -52,7 +52,7 @@ RSpec.describe ConsoleUI do
       let(:guess) { :incorrect_guess }
 
       it "informs user guess is incorrect" do
-        expect(console_ui.guess_result(guess)).to eq "Incorrect guess \n"
+        expect(console_ui.display_guess_result(guess)).to eq "Incorrect guess \n"
       end
     end
 
@@ -60,17 +60,20 @@ RSpec.describe ConsoleUI do
       let(:guess) { :duplicate_guess }
 
       it "informs user letter has already been guessed" do
-        expect(console_ui.guess_result(guess)).to eq "Letter already guessed \n"
+        expect(console_ui.display_guess_result(guess)).to eq "Letter already guessed \n"
       end
     end
-    
+
     context 'guess input is on invalid type' do
       let(:guess) { :invalid_guess }
 
       it "informs user guess type was invalid" do
-        expect(console_ui.guess_result(guess)).to eq "Type of guess invalid. \n A guess must only contain a single letter value."
+        expect(console_ui.display_guess_result(guess)).to eq "Type of guess invalid. \n A guess must only contain a single letter value."
       end
     end
-
+  end
+  
+  describe '#display_game_state' do
+    end
   end
 end

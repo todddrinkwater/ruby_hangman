@@ -1,29 +1,26 @@
 require 'byebug'
 require_relative './console_ui'
+require_relative './game_state'
 
 class GameTwo
   attr_accessor :guesses
-  attr_reader :lives_remaining, :console_ui
+  attr_reader :lives_remaining
 
   def initialize(lives_remaining:, guess_word:)
     @guesses = []
     @lives_remaining = lives_remaining
     @word = guess_word
-    @console_ui = ConsoleUI.new
   end
   
       
   def start_game
-    puts console_ui.display_clue(clue)
-    puts console_ui.display_lives_remaining(lives_remaining)
-    puts "\n"
+    GameState.new(clue, lives_remaining)
   end
   
-  def play_turn #(guess) ??
-    puts console_ui.display_clue(clue)
-    puts console_ui.display_lives_remaining(lives_remaining)
-    guessed_letter = console_ui.player_guess
-    puts console_ui.guess_result(guess_letter(guessed_letter))
+  def play_turn(guess)
+    guess_result = guess_letter(guess)
+    game_over? ? ui_clue = @word.chars : ui_clue = clue
+    GameState.new(ui_clue, lives_remaining, guess_result, guesses.dup, won?, lost?)
   end
 
   def clue
@@ -54,12 +51,15 @@ class GameTwo
   end
 
   def won?
-    guessed_word = clue.join
-    (guessed_word == @word) && (@lives_remaining > 1) #neccessary??
+    !lost? && word_guessed?
   end
 
   def lost?
     @lives_remaining < 1
+  end
+  
+  def word_guessed?
+    clue.join == @word
   end
 end
 

@@ -3,8 +3,9 @@ require "byebug"
 
 RSpec.describe GameTwo do
   let(:initial_lives) { 7 }
-
-  subject(:game) { described_class.new(lives_remaining: initial_lives, guess_word: "powershop") }
+  let(:guess_word) { "powershop" }
+  
+  subject(:game) { described_class.new(lives_remaining: initial_lives, guess_word: guess_word) }
 
   it "creates a new game" do
     expect(game).not_to be_nil
@@ -12,9 +13,86 @@ RSpec.describe GameTwo do
   
   describe '#start_game' do
     it "returns the masked word and lives remaining to the console" do
+      initial_state = game.start_game
       
+      expect(initial_state.clue).to eq guess_word.chars.map { |c| nil }
+      expect(initial_state.lives_remaining).to eq initial_lives
     end
   end
+  
+  describe "#play_turn" do
+    
+    it "when the guess is invalid" do
+      game_state = game.play_turn("3")
+      
+      expect(game_state.clue).to eq guess_word.chars.map { |c| nil }
+      expect(game_state.lives_remaining).to eq initial_lives
+      expect(game_state.guess_result).to eq :invalid_guess
+    end
+    
+    it "when the guess is correct" do
+      game_state = game.play_turn("p")
+      
+      expect(game_state.clue).to eq ["p", nil, nil, nil, nil, nil, nil, nil, "p"]
+      expect(game_state.lives_remaining).to eq initial_lives
+      expect(game_state.guess_result).to eq :correct_guess
+      expect(game_state.guesses).to eq ["p"]
+    end
+    
+    it "when the guess is incorrect" do
+      game_state = game.play_turn("v")
+      
+      expect(game_state.clue).to eq [nil] * 9
+      expect(game_state.lives_remaining).to eq initial_lives - 1
+      expect(game_state.guess_result).to eq :incorrect_guess
+      expect(game_state.guesses).to eq ["v"]
+    end
+    
+    it "when the guess is a duplicate" do
+      game_state = game.play_turn("w")
+      game_state = game.play_turn("w")
+      
+      expect(game_state.clue).to eq [nil, nil, "w", nil, nil, nil, nil, nil, nil]
+      expect(game_state.lives_remaining).to eq initial_lives
+      expect(game_state.guess_result).to eq :duplicate_guess
+      expect(game.guesses).to eq ["w"]
+    end
+    
+    it "when a guess wins a game" do
+      guesses = guess_word.chars.uniq
+      guesses[0...-1].each do |c|
+        game.play_turn(c)
+      end
+
+      game_over_state = game.play_turn(guesses[-1])
+      
+      expect(game_over_state.clue).to eq guess_word.chars
+      expect(game_over_state.lives_remaining).to eq initial_lives
+      expect(game_over_state.guess_result).to eq :correct_guess
+      expect(game_over_state.guesses).to eq guesses
+      expect(game_over_state).to be_won
+      expect(game_over_state).not_to be_lost
+    end
+    
+    it "when a guess loses a game" do
+      incorrect_guesses = ("a".."z").to_a - guess_word.chars
+      incorrect_guesses = incorrect_guesses.take(initial_lives)
+      
+      incorrect_guesses[0...-1].each do |c|
+        game.play_turn(c)
+      end
+      
+      game_over_state = game.play_turn(incorrect_guesses.last)
+      
+      expect(game_over_state.clue).to eq guess_word.chars
+      expect(game_over_state.lives_remaining).to eq 0
+      expect(game_over_state.guess_result).to eq :incorrect_guess
+      expect(game_over_state.guesses).to eq incorrect_guesses
+      expect(game_over_state).not_to be_won
+      expect(game_over_state).to be_lost
+    end
+  end
+  
 
   describe '#clue' do
     context 'when no letters have been guessed' do

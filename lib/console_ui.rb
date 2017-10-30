@@ -9,7 +9,7 @@ class ConsoleUI
     "Lives remaining: #{lives_remaining} \n"
   end
   
-  def guess_result(guess)
+  def display_guess_result(guess)
     case guess
     when :correct_guess
       "Correct guess \n"
@@ -20,6 +20,10 @@ class ConsoleUI
     when :invalid_guess
       "Type of guess invalid. \n A guess must only contain a single letter value."
     end
+  end
+  
+  def ask_for_guess
+    "Take a guess:"
   end
   
   def player_guess
