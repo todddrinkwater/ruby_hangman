@@ -234,47 +234,4 @@ RSpec.describe GameTwo do
       end
     end
   end
-
-  describe "#won?" do
-    context "letters have all been guessed" do
-      before { game.guesses = %w[p o w e r s h o p] }
-
-      it "returns true" do
-        expect(game.won?).to eq true
-      end
-    end
-
-    context "letters have not all been guessed" do
-      it "returns false" do
-        expect(game.won?).to eq false
-      end
-    end
-
-  end
-
-  describe "#lost?" do
-    context "lives remaining is zero" do
-      let(:initial_lives) { 0 }
-
-      it "returns true" do
-        expect(game.lost?).to eq true
-      end
-    end
-    
-    context "lives remaining less than zero" do
-      let(:initial_lives) { -1 }
-
-      it "returns true" do
-        expect(game.lost?).to eq true
-      end
-    end
-
-    context "lives remaining is greater than zero" do
-      let(:initial_lives) { 1 }
-
-      it "returns false" do
-        expect(game.lost?).to eq false
-      end
-    end
-  end
 end

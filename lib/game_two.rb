@@ -11,12 +11,11 @@ class GameTwo
     @lives_remaining = lives_remaining
     @word = guess_word
   end
-  
-      
+
   def start_game
     GameState.new(clue, lives_remaining)
   end
-  
+
   def play_turn(guess)
     guess_result = guess_letter(guess)
     game_over? ? ui_clue = @word.chars : ui_clue = clue
@@ -50,6 +49,8 @@ class GameTwo
     lost? || won?
   end
 
+  private
+  
   def won?
     !lost? && word_guessed?
   end
@@ -57,7 +58,7 @@ class GameTwo
   def lost?
     @lives_remaining < 1
   end
-  
+
   def word_guessed?
     clue.join == @word
   end
