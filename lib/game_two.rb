@@ -1,10 +1,6 @@
-require 'byebug'
-require_relative './console_ui'
 require_relative './game_state'
 
 class GameTwo
-  attr_accessor :guesses
-  attr_reader :lives_remaining
 
   def initialize(lives_remaining:, guess_word:)
     @guesses = []
@@ -18,15 +14,21 @@ class GameTwo
 
   def play_turn(guess)
     guess_result = guess_letter(guess)
-    game_over? ? ui_clue = @word.chars : ui_clue = clue
+    game_over? ? ui_clue = word.chars : ui_clue = clue
     GameState.new(ui_clue, lives_remaining, guess_result, guesses.dup, won?, lost?, game_over?)
   end
 
   private
+  
+  attr_reader :guesses, :lives_remaining, :word
 
   def clue
-    masked_word = @word.chars
-    masked_word.map! { |letter| guesses.include?(letter) ? letter : nil }
+    masked_word = word.chars
+    masked_word.map! { |letter|  guessed_letter?(letter) ? letter : nil }
+  end
+  
+  def guessed_letter?(letter)
+    guesses.include?(letter)
   end
 
   def guess_letter(guess)
@@ -34,14 +36,13 @@ class GameTwo
     guess_is_valid = guess.length == 1 && guess.scan(/[^a-zA-Z]/).empty?
 
     return :invalid_guess unless guess_is_valid
+    return :duplicate_guess if guessed_letter?(guess)
+    
+    guesses << guess
 
-    if guesses.include?(guess)
-      :duplicate_guess
-    elsif @word.include?(guess)
-      guesses << guess
+    if word.include?(guess)
       :correct_guess
     else
-      guesses << guess
       @lives_remaining -= 1
       :incorrect_guess
     end
@@ -56,11 +57,11 @@ class GameTwo
   end
 
   def lost?
-    @lives_remaining < 1
+    lives_remaining < 1
   end
 
   def word_guessed?
-    clue.join == @word
+    clue.join == word
   end
 end
 
