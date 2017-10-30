@@ -22,12 +22,12 @@ class GameTwo
     GameState.new(ui_clue, lives_remaining, guess_result, guesses.dup, won?, lost?, game_over?)
   end
 
+  private
+
   def clue
     masked_word = @word.chars
     masked_word.map! { |letter| guesses.include?(letter) ? letter : nil }
   end
-  
-  private
 
   def guess_letter(guess)
     guess = guess.to_s
