@@ -28,6 +28,7 @@ RSpec.describe GameTwo do
       expect(game_state.clue).to eq guess_word.chars.map { |c| nil }
       expect(game_state.lives_remaining).to eq initial_lives
       expect(game_state.guess_result).to eq :invalid_guess
+      expect(game_state).not_to be_game_over # add game_over check here
     end
     
     it "when the guess is correct" do
@@ -37,6 +38,7 @@ RSpec.describe GameTwo do
       expect(game_state.lives_remaining).to eq initial_lives
       expect(game_state.guess_result).to eq :correct_guess
       expect(game_state.guesses).to eq ["p"]
+      expect(game_state).not_to be_game_over #and here
     end
     
     it "when the guess is incorrect" do
@@ -46,6 +48,7 @@ RSpec.describe GameTwo do
       expect(game_state.lives_remaining).to eq initial_lives - 1
       expect(game_state.guess_result).to eq :incorrect_guess
       expect(game_state.guesses).to eq ["v"]
+      expect(game_state).not_to be_game_over #and here
     end
     
     it "when the guess is a duplicate" do
@@ -56,6 +59,7 @@ RSpec.describe GameTwo do
       expect(game_state.lives_remaining).to eq initial_lives
       expect(game_state.guess_result).to eq :duplicate_guess
       expect(game.guesses).to eq ["w"]
+      expect(game_state).not_to be_game_over #and here
     end
     
     it "when a guess wins a game" do
@@ -72,6 +76,7 @@ RSpec.describe GameTwo do
       expect(game_over_state.guesses).to eq guesses
       expect(game_over_state).to be_won
       expect(game_over_state).not_to be_lost
+      expect(game_over_state).to be_game_over #added this, removed game_over? tests
     end
     
     it "when a guess loses a game" do
@@ -90,11 +95,13 @@ RSpec.describe GameTwo do
       expect(game_over_state.guesses).to eq incorrect_guesses
       expect(game_over_state).not_to be_won
       expect(game_over_state).to be_lost
+      expect(game_over_state).to be_game_over #added this, removed game_over? tests
     end
   end
   
-
+# test for game over when all letters have not been guessed.
   describe '#clue' do
+
     context 'when no letters have been guessed' do
       it 'returns array of nil values' do
         expect(game.clue).to eq [nil] * 9
@@ -213,24 +220,6 @@ RSpec.describe GameTwo do
         it "informs that guess is invalid" do
           expect(game.guess_letter(guess)).to eq :invalid_guess
         end
-      end
-    end
-  end
-
-  describe "#game_over?" do
-    context "no lives remaining" do
-      let(:initial_lives) { 0 }
-
-      it "returns true" do
-        expect(game.game_over?).to eq true
-      end
-    end
-
-    context "all letters have been correctly guessed" do
-      before { game.guesses = %w[p o w e r s h o p] }
-
-      it "returns true" do
-        expect(game.game_over?).to eq true
       end
     end
   end

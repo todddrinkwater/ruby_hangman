@@ -19,7 +19,7 @@ class GameTwo
   def play_turn(guess)
     guess_result = guess_letter(guess)
     game_over? ? ui_clue = @word.chars : ui_clue = clue
-    GameState.new(ui_clue, lives_remaining, guess_result, guesses.dup, won?, lost?)
+    GameState.new(ui_clue, lives_remaining, guess_result, guesses.dup, won?, lost?, game_over?)
   end
 
   def clue
@@ -45,12 +45,12 @@ class GameTwo
     end
   end
 
+  private
+
   def game_over?
     lost? || won?
   end
 
-  private
-  
   def won?
     !lost? && word_guessed?
   end
