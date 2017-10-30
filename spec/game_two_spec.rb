@@ -22,13 +22,56 @@ RSpec.describe GameTwo do
   
   describe "#play_turn" do
     
-    it "when the guess is invalid" do
-      game_state = game.play_turn("3")
+    context "when the guess is invalid" do
+      it "is a number" do
+        game_state = game.play_turn("3")
+        
+        expect(game_state.clue).to eq guess_word.chars.map { |c| nil }
+        expect(game_state.lives_remaining).to eq initial_lives
+        expect(game_state.guess_result).to eq :invalid_guess
+        expect(game_state).not_to be_game_over # add game_over check here
+        expect(game_state.guesses).to eq [] # replaces guesses check from guess_letter
+      end
       
-      expect(game_state.clue).to eq guess_word.chars.map { |c| nil }
-      expect(game_state.lives_remaining).to eq initial_lives
-      expect(game_state.guess_result).to eq :invalid_guess
-      expect(game_state).not_to be_game_over # add game_over check here
+      it "is a special character" do
+        game_state = game.play_turn("_")
+        
+        expect(game_state.clue).to eq guess_word.chars.map { |c| nil }
+        expect(game_state.lives_remaining).to eq initial_lives
+        expect(game_state.guess_result).to eq :invalid_guess
+        expect(game_state).not_to be_game_over
+        expect(game_state.guesses).to eq []
+      end
+      
+      it "is a an empty string" do
+        game_state = game.play_turn("")
+        
+        expect(game_state.clue).to eq guess_word.chars.map { |c| nil }
+        expect(game_state.lives_remaining).to eq initial_lives
+        expect(game_state.guess_result).to eq :invalid_guess
+        expect(game_state).not_to be_game_over
+        expect(game_state.guesses).to eq []
+      end
+      
+      it "contains only whitespace" do
+        game_state = game.play_turn(" ")
+
+        expect(game_state.clue).to eq guess_word.chars.map { |c| nil }
+        expect(game_state.lives_remaining).to eq initial_lives
+        expect(game_state.guess_result).to eq :invalid_guess
+        expect(game_state).not_to be_game_over
+        expect(game_state.guesses).to eq []
+      end
+
+      it "is greater than one letter long" do
+        game_state = game.play_turn("aa")
+
+        expect(game_state.clue).to eq guess_word.chars.map { |c| nil }
+        expect(game_state.lives_remaining).to eq initial_lives
+        expect(game_state.guess_result).to eq :invalid_guess
+        expect(game_state).not_to be_game_over
+        expect(game_state.guesses).to eq []
+      end
     end
     
     it "when the guess is correct" do
@@ -128,98 +171,6 @@ RSpec.describe GameTwo do
 
       it 'creates array cosisting of all letters' do
         expect(game.clue).to eq %w[p o w e r s h o p]
-      end
-    end
-  end
-
-  describe '#guess_letter' do
-    context 'when I guess a letter in the word' do
-      it "added to the list of guesses" do
-        game.guess_letter("p")
-        expect(game.guesses).to eq ["p"]
-      end
-      it "does not remove a life" do
-        game.guess_letter("p")
-        expect(game.lives_remaining).to eq 7
-      end
-    end
-
-    context "when I guess a letter not in the word" do
-      
-      it "is adds the letter to the list of guesses" do
-        game.guess_letter("b")
-        expect(game.guesses).to eq ["b"]
-      end
-
-      it "informs the player the guess was incorrect" do
-        expect(game.guess_letter("b")).to eq :incorrect_guess
-      end
-
-      it "deducts a life" do
-        expect{game.guess_letter("b")}.to change{game.lives_remaining}.by -1
-      end
-    end
-
-    context "when I guess a letter that has already been guessed" do
-      let(:guess) { "p" }
-      subject(:guess_letter) { game.guess_letter(guess) }
-
-      before { game.guess_letter(guess) }
-
-      it "is not added to the list of guesses" do
-        guess_letter
-        expect(game.guesses).to eq [guess]
-      end
-
-      it "informs the caller the guess has already been used" do
-        expect(guess_letter).to eq :duplicate_guess
-      end
-
-      it "does not remove a life" do
-        expect{guess_letter}.not_to change{game.lives_remaining}
-      end
-    end
-
-    context "when the guess is not a letter" do
-      context "the guess a number" do
-        let(:guess) { 3 }
-
-        it "informs that guess is invalid" do
-          expect(game.guess_letter(guess)).to eq :invalid_guess
-        end
-      end
-
-      context "when the guess contains a special character" do
-        it "informs that guess is a special character" do
-          expect(game.guess_letter("_")).to eq :invalid_guess
-          expect(game.guess_letter("*")).to eq :invalid_guess
-        end
-      end
-
-      context "the guess is empty" do
-        context "guess is empty string" do
-          let(:guess) { "" }
-
-          it "informs that guess is invalid" do
-            expect(game.guess_letter(guess)).to eq :invalid_guess
-          end
-        end
-
-        context "the guess contains only whitespace" do
-          let(:guess) { " " }
-
-          it "informs that guess is invalid" do
-            expect(game.guess_letter(guess)).to eq :invalid_guess
-          end
-        end
-      end
-
-      context "the guess is not one letter" do
-        let(:guess) {"aa"}
-
-        it "informs that guess is invalid" do
-          expect(game.guess_letter(guess)).to eq :invalid_guess
-        end
       end
     end
   end

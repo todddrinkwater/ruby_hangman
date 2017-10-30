@@ -26,6 +26,8 @@ class GameTwo
     masked_word = @word.chars
     masked_word.map! { |letter| guesses.include?(letter) ? letter : nil }
   end
+  
+  private
 
   def guess_letter(guess)
     guess = guess.to_s
@@ -44,8 +46,6 @@ class GameTwo
       :incorrect_guess
     end
   end
-
-  private
 
   def game_over?
     lost? || won?
