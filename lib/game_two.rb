@@ -1,4 +1,6 @@
 require_relative './game_state'
+# TODO: Get rid of old game rb files / specs then commit
+# TODO: Start building UI, inject game into it
 
 class GameTwo
 
