@@ -1,7 +1,7 @@
-require "game_two"
+require "game"
 require "byebug"
 
-RSpec.describe GameTwo do
+RSpec.describe Game do
   let(:initial_lives) { 7 }
   let(:guess_word) { "powershop" }
 
