@@ -20,14 +20,14 @@ class Game
   end
 
   private
-  
+
   attr_reader :guesses, :lives_remaining, :word
 
   def clue
     masked_word = word.chars
     masked_word.map! { |letter|  guessed_letter?(letter) ? letter : nil }
   end
-  
+
   def guessed_letter?(letter)
     guesses.include?(letter)
   end
@@ -38,7 +38,7 @@ class Game
 
     return :invalid_guess unless guess_is_valid
     return :duplicate_guess if guessed_letter?(guess)
-    
+
     guesses << guess
 
     if word.include?(guess)

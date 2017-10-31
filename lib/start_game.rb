@@ -1,5 +1,4 @@
-require_relative "./game_two.rb"
+require_relative "./console_ui.rb"
 
-game = Game.new(lives_remaining: 7, guess_word: "dog")
-game.start_game
-game.play_turn
+game = ConsoleUI.new
+game.start_new_game
