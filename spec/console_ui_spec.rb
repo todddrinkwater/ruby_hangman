@@ -20,4 +20,20 @@ RSpec.describe ConsoleUI do
       end
     end
   end
+  
+  describe "#display_guesses" do
+    context "when the first guess is made" do
+      guesses = ["a"]
+      it "displays a single guess" do
+        expect(console_ui.display_guesses(guesses)).to eq "Previous guesses: a"
+      end
+    end
+    
+    context "when a second unique guess is made" do
+      guesses = ["a", "b"]
+      it "displays a single guess" do
+        expect(console_ui.display_guesses(guesses)).to eq "Previous guesses: a b"
+      end
+    end
+  end
 end
