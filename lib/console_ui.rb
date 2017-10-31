@@ -11,13 +11,17 @@ class ConsoleUI
   
   def start_new_game
     new_game = game.start_game
-    puts "Welcome to Hangman"
+    puts display_welcome_message
     puts display_clue
     puts "Lives remaining: #{new_game.lives_remaining}"
     
     display_progress(game.play_turn(guessed_letter)) until game.play_turn(guessed_letter).game_over?
     
     stored_letter = guessed_letter
+  end
+  
+  def display_welcome_message
+    "Welcome to Hangman"
   end
   
   def display_progress(turn)

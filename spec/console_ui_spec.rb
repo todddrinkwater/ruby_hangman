@@ -4,18 +4,19 @@ require "byebug"
 RSpec.describe ConsoleUI do
   subject (:console_ui) { described_class.new }
   
-  context "when initalizing a new game" do
-    it "chooses a set number of lives" do
-      expect(console_ui.game.start_game.lives_remaining).to eq 7
+  describe "#display_welcome_message" do
+    it "creates welcome message at start of game" do
+      expect(console_ui.display_welcome_message).to eq "Welcome to Hangman"
     end
   end
-    
+  
   describe "#display_clue" do
-    context "when no letters are guessed" do
-      it "returns a string of underscores" do
-        console_ui.game.guess_word = "dog"
-        byebug
-        expect(console_ui.display_clue).to eq "Your clue: _ _ _"
+    context "when game first starts" do
+      it "returns a masked word" do
+        new_game = console_ui.game
+        clue = new_game.send(:word).chars.map! { |element| element = "_" }.join(" ")
+        
+        expect(console_ui.display_clue).to eq "Your clue: #{clue}"
       end
     end
   end
