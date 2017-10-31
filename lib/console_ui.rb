@@ -11,32 +11,46 @@ class ConsoleUI
 
   def start_new_game
     new_game = game.start_game
-    
-    puts display_welcome_message
+
+    puts "Welcome to Hangman"
     puts display_clue
-    puts "Lives remaining: #{new_game.lives_remaining}"
+    puts display_lives_remaining(new_game.lives_remaining)
 
     play_turn
   end
-
+  
   def play_turn
     loop do
       turn = game.play_turn(guessed_letter)
-      if display_progress(turn) == true then break; end
+      break if display_progress(turn) == true
     end
   end
 
-  def display_welcome_message
-    "Welcome to Hangman"
-  end
-
   def display_progress(turn)
-    puts turn.guess_result
-    puts turn.lives_remaining
+    puts display_guess_result(turn.guess_result)
+    puts display_lives_remaining(turn.lives_remaining)
     puts display_clue
     puts display_guesses(turn.guesses)
 
     turn.game_over?
+    #TODO: Return hash containing guess_result symbol, create response message based on that,
+  end
+  
+  def display_guess_result(result)
+    case result
+      when :correct_guess
+        return "Correct"
+      when :incorrect_guess
+        return "Incorrect"
+      when :invalid_guess
+        return "Invalid guess. \n Guess must only contain a single letter."
+      when :duplicate_guess
+        return "Guess has already been made, guess again."
+    end
+  end
+  
+  def display_lives_remaining(lives)
+    "Lives remaining: #{lives}"
   end
 
   def display_clue
