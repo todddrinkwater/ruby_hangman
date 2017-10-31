@@ -15,40 +15,42 @@ class ConsoleUI
     puts "Welcome to Hangman"
     puts display_clue
     puts display_lives_remaining(new_game.lives_remaining)
-
+    
     play_turn
   end
-  
+
   def play_turn
     loop do
+      puts ask_for_guess
       turn = game.play_turn(guessed_letter)
-      break if display_progress(turn) == true
+      break if display_game_state(turn) == true
     end
   end
 
-  def display_progress(turn)
+  def display_game_state(turn) #TODO: Two resposibilities, seperate
     puts display_guess_result(turn.guess_result)
     puts display_lives_remaining(turn.lives_remaining)
     puts display_clue
     puts display_guesses(turn.guesses)
-
+    puts ""
+    puts "You win!" if turn.won?
+    puts "You lose!" if turn.lost?
     turn.game_over?
-    #TODO: Return hash containing guess_result symbol, create response message based on that,
   end
-  
+
   def display_guess_result(result)
     case result
       when :correct_guess
-        return "Correct"
+        return green("Correct")
       when :incorrect_guess
-        return "Incorrect"
+        return red("Incorrect")
       when :invalid_guess
-        return "Invalid guess. \n Guess must only contain a single letter."
+        return yellow("Invalid guess. \n Guess must only contain a single letter.")
       when :duplicate_guess
-        return "Guess has already been made, guess again."
+        return yellow("Guess has already been made, guess again.")
     end
   end
-  
+
   def display_lives_remaining(lives)
     "Lives remaining: #{lives}"
   end
@@ -71,4 +73,21 @@ class ConsoleUI
   def guessed_letter
     gets.chomp
   end
+  
+  def colorize(text, color_code)
+    "\e[#{color_code}m#{text}\e[0m"
+  end
+
+  def red(text)
+    colorize(text, 31)
+  end
+  
+  def green(text)
+    colorize(text, 32)
+  end
+  
+  def yellow(text)
+    colorize(text, 33)
+  end
+  
 end

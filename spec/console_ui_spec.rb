@@ -30,29 +30,29 @@ RSpec.describe ConsoleUI do
       end
     end
   end
-  
+
   describe "#display_guess_result" do
     context "when guess is correct" do
-      it "informs user guess is correct" do
-        expect(console_ui.display_guess_result(:correct_guess)).to eq "Correct"
+      it "informs user guess is correct in green" do
+        expect(console_ui.display_guess_result(:correct_guess)).to eq "\e[32mCorrect\e[0m"
       end
     end
-    
+
     context "when guess is incorrect" do
-      it "informs user guess is incorrect" do
-        expect(console_ui.display_guess_result(:incorrect_guess)).to eq "Incorrect"
+      it "informs user guess is incorrect in red" do
+        expect(console_ui.display_guess_result(:incorrect_guess)).to eq "\e[31mIncorrect\e[0m"
       end
     end
-    
+
     context "when guess is invalid" do
-      it "informs user guess is invalid" do
-        expect(console_ui.display_guess_result(:invalid_guess)).to eq "Invalid guess. \n Guess must only contain a single letter."
+      it "informs user guess is invalid in yellow" do
+        expect(console_ui.display_guess_result(:invalid_guess)).to eq "\e[33mInvalid guess. \n Guess must only contain a single letter.\e[0m"
       end
     end
-    
+
     context "when guess has already been made" do
-      it "informs user guess is has already been made" do
-        expect(console_ui.display_guess_result(:duplicate_guess)).to eq "Guess has already been made, guess again."
+      it "informs user guess is has already been made in yellow" do
+        expect(console_ui.display_guess_result(:duplicate_guess)).to eq "\e[33mGuess has already been made, guess again.\e[0m"
       end
     end
   end
