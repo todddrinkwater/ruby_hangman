@@ -1,7 +1,5 @@
 require_relative './game_state'
 
-#TODO: Deduct life in guess_letter - place in seperate method?
-
 class Game
 
   def initialize(lives_remaining:, guess_word:)
@@ -13,8 +11,7 @@ class Game
   def start_game
     GameState.new(clue, lives_remaining)
   end
-  
-  #TODO: Change all instances of play_turn to make_guess!
+
   def make_guess!(guess)
     guess_result = guess_letter(guess)
     ui_clue = game_over? ? word.chars : clue

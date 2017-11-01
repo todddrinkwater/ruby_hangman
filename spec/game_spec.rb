@@ -1,8 +1,6 @@
 require "game"
 require "byebug"
 
-#TODO: Change all tests to use make_guess! method instead of play_turn
-
 RSpec.describe Game do
   let(:initial_lives) { 7 }
   let(:guess_word) { "powershop" }
@@ -13,25 +11,19 @@ RSpec.describe Game do
     expect(game).not_to be_nil
   end
 
-  # describe '#start_game' do
-  #   # the confusion over the phrasing here might suggest something about your modelling
-  #   describe 'the game state???' do
-  #     it 'has no visible characters in the clue' do
-  #       expect(initial_state.clue).to eq guess_word.chars.map { |c| nil }
-  #     end
-  #     
-  #     it 'the player has not lost any lives' do
-  #       expect(initial_state.lives_remaining).to eq initial_lives
-  #     end
-  #   end
-  # 
-  #   it "returns the masked word and lives remaining to the console" do
-  #     initial_state = game.start_game
-  # 
-  #     expect(initial_state.clue).to eq guess_word.chars.map { |c| nil }
-  #     expect(initial_state.lives_remaining).to eq initial_lives
-  #   end
-  # end
+  describe '#start_game' do
+    describe 'the initial game state' do
+      it 'has no visible characters in the clue' do
+        initial_state = game.start_game
+        expect(initial_state.clue).to eq guess_word.chars.map { |c| nil }
+      end
+  
+      it 'the player has not lost any lives' do
+        initial_state = game.start_game
+        expect(initial_state.lives_remaining).to eq initial_lives
+      end
+    end
+  end
 
 
   describe "#make_guess!" do
@@ -44,42 +36,42 @@ RSpec.describe Game do
         expect(game_state).not_to be_game_over
       end
     end
-    
+
     context "when the guess is a number" do
       let(:guess) { "3" }
-      
+
       include_examples "invalid_guesses"
     end
 
     context "when the guess is a special character" do
       let(:guess) { "_" }
-      
+
       include_examples "invalid_guesses"
     end
-    
+
     context "when the guess is an empty string" do
       let(:guess) { "" }
-      
+
       include_examples "invalid_guesses"
     end
-    
+
     context "when the guess contains only whitespace" do
       let(:guess) { " " }
-      
+
       include_examples "invalid_guesses"
     end
-    
+
     context "when the guess is greater than one letter long" do
       let(:guess) { "aa" }
-      
+
       include_examples "invalid_guesses"
     end
-    
+
     it "handles a correct guess" do
       game_state = game.make_guess!("p")
 
+      expect { game.make_guess!("p") }.not_to change { game_state.lives_remaining }
       expect(game_state.clue).to eq ["p", nil, nil, nil, nil, nil, nil, nil, "p"]
-      expect(game_state.lives_remaining).to eq initial_lives
       expect(game_state.guess_result).to eq :correct_guess
       expect(game_state.guesses).to eq ["p"]
       expect(game_state).not_to be_game_over
@@ -96,7 +88,7 @@ RSpec.describe Game do
     end
 
     it "handles a duplicate guess" do
-      game_state = game.make_guess!("w")
+      game.make_guess!("w")
       game_state = game.make_guess!("w")
 
       expect(game_state.clue).to eq [nil, nil, "w", nil, nil, nil, nil, nil, nil]

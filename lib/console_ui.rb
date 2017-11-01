@@ -18,7 +18,7 @@ class ConsoleUI
 
     play_turn
   end
-  
+
   private
 
   def play_turn
@@ -30,13 +30,13 @@ class ConsoleUI
     end
   end
 
-  def display_game_state(state) #TODO: Two resposibilities, seperate into single resposibilities
+  def display_game_state(state)
     puts display_guess_result(state.guess_result)
     puts clue_message(game.start_game.clue)
     puts guesses_message(state.guesses)
     puts lives_remaining_message(state.lives_remaining)
     puts ""
-    
+
     puts "You win!" if state.won?
     puts "You lose!" if state.lost?
   end
@@ -75,7 +75,7 @@ class ConsoleUI
   def guessed_letter
     gets.chomp
   end
-  
+
   def colorize(text, color_code)
     "\e[#{color_code}m#{text}\e[0m"
   end
@@ -83,11 +83,11 @@ class ConsoleUI
   def red(text)
     colorize(text, 31)
   end
-  
+
   def green(text)
     colorize(text, 32)
   end
-  
+
   def yellow(text)
     colorize(text, 33)
   end
