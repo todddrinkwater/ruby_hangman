@@ -34,7 +34,7 @@ class ConsoleUI
   end
 
   def display_game_state(state)
-    puts display_guess_result(state.guess_result)
+    puts display_guess_result(state.guess_result) #TODO: Make naming more consistent in this method, display or message not required.
     puts clue_message(game.start_game.clue, state.game_over?)
     puts guesses_message(state.guesses)
     puts lives_remaining_message(state.lives_remaining)

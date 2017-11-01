@@ -125,7 +125,7 @@ RSpec.describe Game do
 
       game_over_state = game.make_guess!(incorrect_guesses.last)
 
-      expect(game_over_state.clue).to eq guess_word.chars #TODO: Why is this passing?
+      expect(game_over_state.clue).to eq guess_word.chars
       expect(game_over_state.lives_remaining).to eq 0
       expect(game_over_state.guess_result).to eq :incorrect_guess
       expect(game_over_state.guesses).to eq incorrect_guesses
