@@ -24,15 +24,18 @@ class ConsoleUI
   def play_turn
     loop do
       print "\n#{ask_for_guess}"
-      state = game.play_turn(guessed_letter)
+      state = game.make_guess!(guessed_letter)
       display_game_state(state)
-      break if state.game_over?
+      if state.game_over?
+        puts clue_message(state.clue, state.game_over?)
+        break
+      end
     end
   end
 
   def display_game_state(state)
     puts display_guess_result(state.guess_result)
-    puts clue_message(game.start_game.clue)
+    puts clue_message(game.start_game.clue, state.game_over?)
     puts guesses_message(state.guesses)
     puts lives_remaining_message(state.lives_remaining)
     puts ""
@@ -58,10 +61,14 @@ class ConsoleUI
     "Lives remaining: #{lives}"
   end
 
-  def clue_message(clue)
-    place_holder = "_"
-    clue = clue.map { |e| e == nil ? place_holder : e }
-    "Your clue: #{clue.join(" ")}"
+  def clue_message(clue, game_over = false)
+    if game_over
+      "Your word was: #{clue.join("")}"
+    else
+      place_holder = "_"
+      clue = clue.map { |e| e == nil ? place_holder : e }
+      "Your clue: #{clue.join(" ")}"
+    end
   end
 
   def guesses_message(guesses)

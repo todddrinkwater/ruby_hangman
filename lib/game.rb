@@ -30,9 +30,8 @@ class Game
     guesses.include?(letter)
   end
 
-  def guess_letter(guess)
-    guess = guess.to_s
-    guess_is_valid = guess.length == 1 && guess.scan(/[^a-zA-Z]/).empty?
+  def guess_letter(guess) #TODO: Change to bang! method as we are mutating the state/game.
+    guess_is_valid = /^[a-zA-Z]$/.match(guess)
 
     return :invalid_guess unless guess_is_valid
     return :duplicate_guess if guessed_letter?(guess)
