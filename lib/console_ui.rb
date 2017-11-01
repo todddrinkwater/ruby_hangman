@@ -2,10 +2,10 @@ require_relative "./game"
 
 class ConsoleUI
 
-  attr_accessor :game, :word
+  attr_reader :game
 
   def initialize
-    @word = ["horse", "dog", "flux", "rails"].sample
+    word = ["horse", "dog", "flux", "rails"].sample
     @game = Game.new(lives_remaining: 7, guess_word: word)
   end
 
@@ -13,61 +13,63 @@ class ConsoleUI
     new_game = game.start_game
 
     puts "Welcome to Hangman"
-    puts display_clue
-    puts display_lives_remaining(new_game.lives_remaining)
-    
+    puts clue_message(new_game.clue)
+    puts lives_remaining_message(new_game.lives_remaining)
+
     play_turn
   end
+  
+  private
 
   def play_turn
     loop do
-      puts ask_for_guess
-      turn = game.play_turn(guessed_letter)
-      break if display_game_state(turn) == true
+      print "\n#{ask_for_guess}"
+      state = game.play_turn(guessed_letter)
+      display_game_state(state)
+      break if state.game_over?
     end
   end
 
-  def display_game_state(turn) #TODO: Two resposibilities, seperate
-    puts display_guess_result(turn.guess_result)
-    puts display_lives_remaining(turn.lives_remaining)
-    puts display_clue
-    puts display_guesses(turn.guesses)
+  def display_game_state(state) #TODO: Two resposibilities, seperate into single resposibilities
+    puts display_guess_result(state.guess_result)
+    puts clue_message(game.start_game.clue)
+    puts guesses_message(state.guesses)
+    puts lives_remaining_message(state.lives_remaining)
     puts ""
-    puts "You win!" if turn.won?
-    puts "You lose!" if turn.lost?
-    turn.game_over?
+    
+    puts "You win!" if state.won?
+    puts "You lose!" if state.lost?
   end
 
   def display_guess_result(result)
     case result
       when :correct_guess
-        return green("Correct")
+        green("Correct")
       when :incorrect_guess
-        return red("Incorrect")
+        red("Incorrect")
       when :invalid_guess
-        return yellow("Invalid guess. \n Guess must only contain a single letter.")
+        yellow("Invalid guess. \n Guess must only contain a single letter.")
       when :duplicate_guess
-        return yellow("Guess has already been made, guess again.")
+        yellow("Guess has already been made, guess again.")
     end
   end
 
-  def display_lives_remaining(lives)
+  def lives_remaining_message(lives)
     "Lives remaining: #{lives}"
   end
 
-  def display_clue
-    new_game = game.start_game
+  def clue_message(clue)
     place_holder = "_"
-    clue = new_game.clue.map { |e| e == nil ? place_holder : e }
+    clue = clue.map { |e| e == nil ? place_holder : e }
     "Your clue: #{clue.join(" ")}"
   end
 
-  def display_guesses(guesses)
+  def guesses_message(guesses)
     "Previous guesses: #{guesses.join(" ")}"
   end
 
   def ask_for_guess
-    "Please make a guess:"
+    "Please make a guess: "
   end
 
   def guessed_letter
@@ -89,5 +91,4 @@ class ConsoleUI
   def yellow(text)
     colorize(text, 33)
   end
-  
 end

@@ -1,5 +1,6 @@
 require_relative './game_state'
-# TODO: Start building UI, inject game into it
+
+#TODO: Deduct life in guess_letter - place in seperate method?
 
 class Game
 
@@ -12,10 +13,11 @@ class Game
   def start_game
     GameState.new(clue, lives_remaining)
   end
-
-  def play_turn(guess)
+  
+  #TODO: Change all instances of play_turn to make_guess!
+  def make_guess!(guess)
     guess_result = guess_letter(guess)
-    game_over? ? ui_clue = word.chars : ui_clue = clue
+    ui_clue = game_over? ? word.chars : clue
     GameState.new(ui_clue, lives_remaining, guess_result, guesses.dup, won?, lost?, game_over?)
   end
 
@@ -24,8 +26,7 @@ class Game
   attr_reader :guesses, :lives_remaining, :word
 
   def clue
-    masked_word = word.chars
-    masked_word.map! { |letter|  guessed_letter?(letter) ? letter : nil }
+    word.chars.map { |letter|  guessed_letter?(letter) ? letter : nil }
   end
 
   def guessed_letter?(letter)
