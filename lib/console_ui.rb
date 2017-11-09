@@ -13,8 +13,8 @@ class ConsoleUI
     new_game = game.start_game
 
     puts "Welcome to Hangman"
-    puts clue_message(new_game.clue)
-    puts lives_remaining_message(new_game.lives_remaining)
+    puts clue(new_game.clue)
+    puts lives_remaining(new_game.lives_remaining)
 
     play_turn
   end
@@ -27,24 +27,24 @@ class ConsoleUI
       state = game.make_guess!(guessed_letter)
       display_game_state(state)
       if state.game_over?
-        puts clue_message(state.clue, state.game_over?)
+        puts clue(state.clue, state.game_over?)
         break
       end
     end
   end
 
   def display_game_state(state)
-    puts display_guess_result(state.guess_result) #TODO: Make naming more consistent in this method, display or message not required.
-    puts clue_message(game.start_game.clue, state.game_over?)
-    puts guesses_message(state.guesses)
-    puts lives_remaining_message(state.lives_remaining)
+    puts guess_result(state.guess_result) #TODO: Make naming more consistent in this method, display or message not required.
+    puts clue(game.start_game.clue, state.game_over?)
+    puts guesses_made(state.guesses)
+    puts lives_remaining(state.lives_remaining)
     puts ""
 
     puts "You win!" if state.won?
     puts "You lose!" if state.lost?
   end
 
-  def display_guess_result(result)
+  def guess_result(result)
     case result
       when :correct_guess
         green("Correct")
@@ -57,11 +57,11 @@ class ConsoleUI
     end
   end
 
-  def lives_remaining_message(lives)
+  def lives_remaining(lives)
     "Lives remaining: #{lives}"
   end
 
-  def clue_message(clue, game_over = false)
+  def clue(clue, game_over = false)
     if game_over
       "Your word was: #{clue.join("")}"
     else
@@ -71,7 +71,7 @@ class ConsoleUI
     end
   end
 
-  def guesses_message(guesses)
+  def guesses_made(guesses)
     "Previous guesses: #{guesses.join(" ")}"
   end
 

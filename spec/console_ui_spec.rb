@@ -1,23 +1,23 @@
-require "console_ui"
-require "byebug"
+# require "console_ui"
+# require "byebug"
 
 #TODO: Test start_new_game flow using stubbing.
-
-RSpec.describe ConsoleUI do
-  subject (:console_ui) { described_class.new }
-
-  describe "#create_clue_display" do
-    context "when game first starts" do
-      it "returns a masked word" do
-        new_game = console_ui.game
-        clue = new_game.send(:word).chars.map! { |element| element = "_" }.join(" ")
-
-        expect(console_ui.create_clue_display).to eq "Your clue: #{clue}"
-      end
-    end
-  end
-  
-  expect(game).to receive(:play_turn).and_return(true)
+# 
+# RSpec.describe ConsoleUI do
+#   subject (:console_ui) { described_class.new }
+# 
+#   describe "#create_clue_display" do
+#     context "when game first starts" do
+#       it "returns a masked word" do
+#         new_game = console_ui.game
+#         clue = new_game.send(:word).chars.map! { |element| element = "_" }.join(" ")
+# 
+#         expect(console_ui.create_clue_display).to eq "Your clue: #{clue}"
+#       end
+#     end
+#   end
+#   
+#   expect(game).to receive(:play_turn).and_return(true)
   # expect { method call }.to output('some string').to_stdout
 
   # describe "#create_guesses_display" do
